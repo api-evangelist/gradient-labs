@@ -1,0 +1,74 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Gradient Labs
+providerId: gradient-labs
+created: '2026-07-01'
+modified: '2026-07-01'
+reconciled: false
+tags:
+- AI
+- Customer Support
+- AI Agent
+- Financial Services
+- Plans
+description: >-
+  Gradient Labs is an enterprise, sales-led product for regulated and financial
+  services businesses. Pricing is outcome-based and quoted through sales rather
+  than published as self-serve tiers or per-call API rates. The commercial model
+  is oriented around resolved conversations / successful outcomes handled by the
+  AI agent ("Otto") rather than metered API requests, and includes enterprise
+  security, compliance, and support commitments. No public price list, free tier,
+  or self-service signup is published on the website as of this record.
+notes: >-
+  Outcome-based / per-resolution pricing and enterprise terms are not publicly
+  itemized. Values below are structural, not quoted figures; contact Gradient
+  Labs sales for a quote. Verify on reconciliation.
+sources:
+- https://www.gradient-labs.ai
+- https://api-docs.gradient-labs.ai/
+plans:
+- id: gradient-labs-outcome-based
+  name: Outcome-Based (Enterprise)
+  type: enterprise
+  description: >-
+    Commercial agreement priced on outcomes the AI agent delivers (e.g. resolved
+    conversations) across supported channels - email, chat, SMS, and voice -
+    with volume-based, negotiated terms. Quoted by Gradient Labs sales.
+  entries:
+  - label: Resolved Conversation / Outcome
+    name: resolved_outcome
+    type: usage
+    metric: resolutions
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: outcome-based, contact sales
+    userMultiplied: false
+  - label: Enterprise Platform Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: AI Support Agent (Otto)
+  - name: Conversations API
+  - name: Messages API
+  - name: Hand-off & Assignment
+  - name: Actions & Tools
+  - name: Knowledge Base
+  - name: Webhooks
+  - name: Multi-channel (email, chat, SMS, voice)
+  - name: SOC 2 Type 2
+  - name: GDPR Compliance
+  - name: SSO and Audit Logs
+  - name: Dedicated Support
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

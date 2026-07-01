@@ -1,0 +1,60 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Gradient Labs
+providerId: gradient-labs
+created: '2026-07-01'
+modified: '2026-07-01'
+reconciled: false
+tags:
+- AI
+- Customer Support
+- AI Agent
+- Financial Services
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  Gradient Labs does not publish specific numeric rate limits for its HTTP API on
+  its public site or in its open-source SDKs. The API documents that endpoints are
+  idempotent and requests can be safely retried, which implies clients should
+  implement retry-with-backoff behavior. Any account-level throttling and quotas
+  are expected to be governed by the enterprise agreement. Webhook deliveries carry
+  an incrementing sequence_number per conversation so consumers can order events
+  and safely deduplicate on retry.
+notes: >-
+  No published RPM/RPS/quota figures. Values are modeled as "see provider
+  documentation" pending an enterprise agreement or access to the gated API
+  reference. Verify on reconciliation.
+sources:
+- https://api-docs.gradient-labs.ai/
+- https://www.gradient-labs.ai
+responseCodes:
+  throttled: 429
+limits:
+- name: API Requests
+  scope: account
+  metric: requests
+  limit: see provider documentation
+  notes: >-
+    No public per-account request rate is published; governed by the enterprise
+    agreement. Endpoints are idempotent and safe to retry.
+- name: Webhook Delivery Ordering
+  scope: conversation
+  metric: events
+  limit: ordered via sequence_number
+  notes: >-
+    Each webhook about a conversation includes an incrementing sequence_number
+    to establish total event order and support safe deduplication on retry.
+policies:
+- name: Idempotency and Retry
+  description: >-
+    Unless stated otherwise, endpoints are idempotent and requests can be safely
+    retried. Clients should implement exponential backoff with jitter.
+- name: Enterprise-Governed Limits
+  description: >-
+    Throughput and quotas are governed by the negotiated enterprise agreement
+    rather than a public self-serve limit.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

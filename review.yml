@@ -1,0 +1,114 @@
+aid: gradient-labs
+name: Gradient Labs
+review:
+  question: Is Gradient Labs' HTTP API surface publicly documented and confirmable?
+  answer: partially
+  date: '2026-07-01'
+  reviewer: API Evangelist
+findings:
+  summary: |
+    Gradient Labs offers "Otto", an AI customer support agent that autonomously
+    handles complex, end-to-end support conversations for regulated and financial
+    services businesses. It exposes an HTTP API at base URL
+    https://api.gradient-labs.ai, authenticated with a Bearer API key in the
+    Authorization header, plus a signed, ordered webhook mechanism the agent uses
+    to deliver its outbound messages and events.
+
+    The company's public API reference at https://api-docs.gradient-labs.ai/ is
+    gated behind an access code, so full field-level request/response schemas
+    could not be read directly. However, Gradient Labs publishes official,
+    open-source client SDKs (Go, Python, Node.js, .NET, Java) under the GitHub
+    org github.com/gradientlabs-ai. The endpoint paths, HTTP verbs, base URL,
+    auth scheme, and webhook event types in this catalog were reconstructed from
+    the official Go SDK (gradientlabs-go), which is authoritative for the wire
+    surface even though it is not the human docs.
+
+    Endpoints that are directly confirmable from the SDK source are listed under
+    endpointsConfirmed. Where request/response object shapes were simplified or
+    inferred (field names, enum values, error bodies) they are flagged under
+    schemasModeled and in the OpenAPI description. The Tools/Actions create and
+    execute endpoints require a Management API key per the SDK.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.gradient-labs.ai
+      documented: true
+      note: Base URL and Bearer auth confirmed from the official Go SDK client.
+    - protocol: Webhooks
+      scheme: https
+      documented: true
+      note: >-
+        Outbound, signed webhooks delivered to a consumer endpoint. Each event
+        carries an incrementing sequence_number per conversation. Event types
+        confirmed from the SDK webhook definitions.
+  endpointsConfirmed:
+    - POST https://api.gradient-labs.ai/conversations
+    - GET  https://api.gradient-labs.ai/conversations/{conversationID}/read
+    - POST https://api.gradient-labs.ai/conversations/{conversationID}/messages
+    - PUT  https://api.gradient-labs.ai/conversations/{conversationID}/assignee
+    - PUT  https://api.gradient-labs.ai/conversations/{conversationID}/finish
+    - PUT  https://api.gradient-labs.ai/conversations/{conversationID}/cancel
+    - PUT  https://api.gradient-labs.ai/conversations/{conversationID}/resume
+    - PUT  https://api.gradient-labs.ai/conversations/{conversationID}/rate
+    - POST https://api.gradient-labs.ai/tools
+    - POST https://api.gradient-labs.ai/tools/{id}/execute
+    - POST https://api.gradient-labs.ai/articles
+  endpointsConfirmedNote: |
+    Paths, HTTP methods, base URL, and Bearer auth were read directly from the
+    official open-source Go SDK (github.com/gradientlabs-ai/gradientlabs-go).
+    The SDK also contains files for handoff targets, article topics/deletes,
+    resource types/sources, notes, procedures, traffic groups, secrets, and
+    terminology substitutions that were not all individually opened; additional
+    management endpoints exist beyond those modeled here.
+  webhookEventsConfirmed:
+    - agent.message
+    - conversation.hand_off
+    - conversation.finished
+    - action.execute
+    - resource.pull
+  schemasModeled:
+    - >-
+      Request/response object schemas in openapi/gradient-labs-openapi.yml
+      (StartConversationParams, Conversation, AddMessageParams, Message,
+      Attachment, AssignmentParams, LifecycleParams, RatingParams, Tool,
+      ToolParameter, ExecutionParams, ExecuteResult, UpsertArticleParams,
+      Article, Error, WebhookEnvelope) are reconstructed from SDK struct field
+      names and are simplified. Exact JSON shapes, enum values (Channel,
+      ParticipantType), and error bodies should be verified against the gated
+      reference at https://api-docs.gradient-labs.ai/.
+    - >-
+      Pricing is outcome-based and sales-quoted; no public unit rates. Plans,
+      rate-limits, and finops artifacts are structural, not quoted figures.
+  endpointsModeled:
+    - >-
+      Additional management endpoints implied by the SDK (handoff targets,
+      article topics, resource types/sources, notes, procedures, traffic groups,
+      secrets, terminology substitutions) are acknowledged but not fully
+      enumerated in the OpenAPI; only the core conversation, message, hand-off,
+      tools, knowledge, and webhook surfaces are modeled.
+sources:
+  - url: https://www.gradient-labs.ai
+    type: Website
+    note: Product overview - AI customer operations agent for financial services; SOC 2 Type 2, GDPR.
+  - url: https://api-docs.gradient-labs.ai/
+    type: APIReference
+    note: Official API reference; gated behind an access code (not directly readable).
+  - url: https://github.com/gradientlabs-ai
+    type: GitHubOrganization
+    note: Official org hosting open-source SDKs (Go, Python, Node.js, .NET, Java).
+  - url: https://github.com/gradientlabs-ai/gradientlabs-go
+    type: SourceCode
+    note: Authoritative source for base URL, Bearer auth, endpoint paths/verbs, and webhook event types used in this catalog.
+actions:
+  openapiPath: openapi/gradient-labs-openapi.yml
+  apisYmlUpdated: true
+  reason: |
+    Modeled six APIs (Conversations, Messages, Hand-off & Assignment, Actions &
+    Tools, Knowledge, Webhooks) from the confirmed SDK surface, with an OpenAPI
+    3.1 document (REST paths + webhooks) and Postman/Open Collection artifacts.
+    Honesty flags recorded above separate SDK-confirmed endpoints from modeled
+    schemas and inferred management endpoints, since the human API reference is
+    access-gated.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

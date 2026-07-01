@@ -1,0 +1,294 @@
+{
+  "info": {
+    "name": "Gradient Labs API",
+    "description": "AI customer support agent (\"Otto\") for regulated and financial services businesses. Base URL https://api.gradient-labs.ai, Bearer API key auth. Endpoints reconstructed from the official open-source Go SDK; verify schemas against the gated reference at https://api-docs.gradient-labs.ai/.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{apiKey}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.gradient-labs.ai"
+    }
+  ],
+  "item": [
+    {
+      "name": "Conversations",
+      "item": [
+        {
+          "name": "Start a conversation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/conversations",
+              "host": ["{{baseUrl}}"],
+              "path": ["conversations"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"conversation-1234\",\n  \"customer_id\": \"customer-5678\",\n  \"channel\": \"chat\",\n  \"assignee_type\": \"ai-agent\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Creates a new conversation and optionally assigns it to the Gradient Labs AI agent."
+          },
+          "response": []
+        },
+        {
+          "name": "Read a conversation",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/conversations/:conversationID/read",
+              "host": ["{{baseUrl}}"],
+              "path": ["conversations", ":conversationID", "read"],
+              "variable": [
+                { "key": "conversationID", "value": "", "description": "Your unique identifier for the conversation." }
+              ]
+            },
+            "description": "Returns the current state of a conversation."
+          },
+          "response": []
+        },
+        {
+          "name": "Finish a conversation",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/conversations/:conversationID/finish",
+              "host": ["{{baseUrl}}"],
+              "path": ["conversations", ":conversationID", "finish"],
+              "variable": [{ "key": "conversationID", "value": "" }]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Marks a conversation as finished."
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel a conversation",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/conversations/:conversationID/cancel",
+              "host": ["{{baseUrl}}"],
+              "path": ["conversations", ":conversationID", "cancel"],
+              "variable": [{ "key": "conversationID", "value": "" }]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Cancels a conversation, stopping the AI agent from working it."
+          },
+          "response": []
+        },
+        {
+          "name": "Resume a conversation",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/conversations/:conversationID/resume",
+              "host": ["{{baseUrl}}"],
+              "path": ["conversations", ":conversationID", "resume"],
+              "variable": [{ "key": "conversationID", "value": "" }]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Resumes a previously finished or cancelled conversation."
+          },
+          "response": []
+        },
+        {
+          "name": "Rate a conversation",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/conversations/:conversationID/rate",
+              "host": ["{{baseUrl}}"],
+              "path": ["conversations", ":conversationID", "rate"],
+              "variable": [{ "key": "conversationID", "value": "" }]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"csat\",\n  \"value\": 5,\n  \"min_value\": 1,\n  \"max_value\": 5\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Records a customer satisfaction rating for a conversation."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Messages",
+      "item": [
+        {
+          "name": "Add a message to a conversation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/conversations/:conversationID/messages",
+              "host": ["{{baseUrl}}"],
+              "path": ["conversations", ":conversationID", "messages"],
+              "variable": [{ "key": "conversationID", "value": "" }]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"message-1\",\n  \"body\": \"Hi, I need help with a payment dispute.\",\n  \"participant_id\": \"customer-5678\",\n  \"participant_type\": \"customer\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Adds an inbound customer or human-agent message for the AI agent to process. The participant type cannot be the AI agent."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Hand-off",
+      "item": [
+        {
+          "name": "Assign a conversation",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/conversations/:conversationID/assignee",
+              "host": ["{{baseUrl}}"],
+              "path": ["conversations", ":conversationID", "assignee"],
+              "variable": [{ "key": "conversationID", "value": "" }]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assignee_type\": \"ai-agent\",\n  \"reason\": \"Routing to the AI agent\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Assigns or reassigns a conversation between the AI agent and human participants."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Actions & Tools",
+      "item": [
+        {
+          "name": "Create a tool",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/tools",
+              "host": ["{{baseUrl}}"],
+              "path": ["tools"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"lookup-account\",\n  \"name\": \"Lookup Account\",\n  \"description\": \"Fetch an account by customer id.\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Defines a business tool the AI agent can call. Requires a Management API key."
+          },
+          "response": []
+        },
+        {
+          "name": "Execute a tool",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/tools/:id/execute",
+              "host": ["{{baseUrl}}"],
+              "path": ["tools", ":id", "execute"],
+              "variable": [{ "key": "id", "value": "", "description": "The tool identifier." }]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"lookup-account\",\n  \"arguments\": [\n    { \"name\": \"customer_id\", \"value\": \"customer-5678\" }\n  ]\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Executes a defined tool and returns its JSON-encoded result. Requires a Management API key."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Knowledge",
+      "item": [
+        {
+          "name": "Upsert a knowledge article",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/articles",
+              "host": ["{{baseUrl}}"],
+              "path": ["articles"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"refunds-policy\",\n  \"title\": \"Refunds Policy\",\n  \"description\": \"How refunds are handled.\",\n  \"body\": \"...\",\n  \"visibility\": \"public\",\n  \"status\": \"published\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Creates or updates a knowledge-base article that grounds the AI agent."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

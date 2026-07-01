@@ -1,0 +1,118 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Gradient Labs
+providerId: gradient-labs
+created: '2026-07-01'
+modified: '2026-07-01'
+reconciled: false
+tags:
+- AI
+- Customer Support
+- AI Agent
+- Financial Services
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Gradient Labs spend. Gradient Labs is an enterprise, outcome-based
+  service: cost is driven by the volume of conversations the AI agent ("Otto")
+  resolves across channels rather than by metered per-token or per-API-call rates.
+  Because pricing is sales-quoted and not publicly itemized, cost allocation should
+  be built around conversation volume, resolution/hand-off rates, and per-channel
+  usage tracked from the API and webhooks.
+notes: >-
+  No public unit rates are published; the model is outcome/resolution based under
+  an enterprise agreement. Meters below describe operationally observable cost
+  drivers, not billed line items. Verify against your contract on reconciliation.
+sources:
+- https://www.gradient-labs.ai
+- https://api-docs.gradient-labs.ai/
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Gradient Labs
+serviceCategory: AI and Machine Learning
+billingModel:
+  pricingCategory: Outcome-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+focusColumns:
+  ServiceName: Gradient Labs AI Agent
+  ServiceCategory: AI and Machine Learning
+  ProviderName: Gradient Labs
+  PublisherName: Gradient Labs
+  InvoiceIssuerName: Gradient Labs
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Outcome-Based
+meters:
+- name: conversations_started
+  description: Conversations created via POST /conversations, a leading indicator of volume.
+  unit: conversations
+  aggregation: sum
+  dimensions:
+  - account
+  - channel
+- name: conversations_resolved
+  description: >-
+    Conversations the AI agent concluded (conversation.finished webhook); the
+    primary outcome-based cost driver.
+  unit: conversations
+  aggregation: sum
+  dimensions:
+  - account
+  - channel
+  - intent
+- name: conversations_handed_off
+  description: >-
+    Conversations escalated to a human (conversation.hand_off webhook); tracks
+    deflection rate and residual human cost.
+  unit: conversations
+  aggregation: sum
+  dimensions:
+  - account
+  - reason_code
+- name: agent_messages
+  description: Outbound AI-agent messages delivered (agent.message webhook).
+  unit: messages
+  aggregation: sum
+  dimensions:
+  - account
+  - channel
+- name: actions_executed
+  description: >-
+    Business tools/actions the agent invoked (action.execute webhook or
+    POST /tools/{id}/execute), which may incur downstream system cost.
+  unit: invocations
+  aggregation: sum
+  dimensions:
+  - account
+  - action
+principles:
+- name: Visibility
+  description: >-
+    Track conversation volume, resolution rate, and hand-off rate per channel
+    from the API and webhook events; reconcile against the enterprise invoice.
+- name: Allocation
+  description: >-
+    Tag conversations with customer_id, channel, traffic_group_id, and intent to
+    map cost to business lines and cost centers.
+- name: Optimization
+  description: >-
+    Improve knowledge-base coverage and procedures to raise autonomous resolution
+    and reduce human hand-offs, the main residual cost.
+- name: Accountability
+  description: >-
+    Assign owners per channel/traffic group; review resolution vs. hand-off
+    trends monthly against the outcome-based agreement.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,808 @@
+openapi: 3.1.0
+info:
+  title: Gradient Labs API
+  version: '1.0'
+  description: >-
+    HTTP API for Gradient Labs' AI customer support agent ("Otto"). Use it to
+    start and drive support conversations, add customer and human-agent
+    messages, assign work to the AI agent, hand off to humans, run business
+    tools/actions, and manage the knowledge base the agent reasons over.
+
+
+    All requests are authenticated with a Bearer API key in the `Authorization`
+    header. Unless stated otherwise, endpoints are idempotent and requests can
+    be safely retried.
+
+
+    IMPORTANT (accuracy note): Gradient Labs' public API reference at
+    https://api-docs.gradient-labs.ai/ is behind an access-code gate. The paths,
+    verbs, and field names in this document were reconstructed from the vendor's
+    official open-source Go SDK (github.com/gradientlabs-ai/gradientlabs-go) and
+    corroborating SDKs. Request/response schemas are modeled and simplified;
+    verify exact field-level shapes against the gated reference before relying on
+    them in production. See review.yml (endpointsConfirmed vs endpointsModeled).
+  contact:
+    name: Gradient Labs
+    url: https://www.gradient-labs.ai
+  license:
+    name: Proprietary
+servers:
+- url: https://api.gradient-labs.ai
+  description: Gradient Labs production API
+security:
+- bearerAuth: []
+tags:
+- name: Conversations
+  description: Start, read, and manage the lifecycle of AI-agent conversations.
+- name: Messages
+  description: Add inbound messages to a conversation.
+- name: Hand-off
+  description: Assign conversations between the AI agent and human participants.
+- name: Actions & Tools
+  description: Define and execute business tools the AI agent can call.
+- name: Knowledge
+  description: Manage knowledge-base articles that ground the AI agent.
+paths:
+  /conversations:
+    post:
+      tags:
+      - Conversations
+      operationId: startConversation
+      summary: Start a conversation
+      description: >-
+        Creates a new conversation and (optionally) assigns it to the Gradient
+        Labs AI agent so it begins working the conversation autonomously.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartConversationParams'
+      responses:
+        '200':
+          description: Conversation started.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /conversations/{conversationID}/read:
+    get:
+      tags:
+      - Conversations
+      operationId: readConversation
+      summary: Read a conversation
+      description: Returns the current state of a conversation.
+      parameters:
+      - $ref: '#/components/parameters/ConversationID'
+      - name: support_platform
+        in: query
+        required: false
+        description: >-
+          Identifies the support platform (e.g. intercom) if the conversation was
+          initiated through one.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Conversation state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /conversations/{conversationID}/messages:
+    post:
+      tags:
+      - Messages
+      operationId: addMessage
+      summary: Add a message to a conversation
+      description: >-
+        Adds an inbound message (from the customer or a human agent) to a
+        conversation for the AI agent to process. The participant type cannot be
+        the AI agent.
+      parameters:
+      - $ref: '#/components/parameters/ConversationID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddMessageParams'
+      responses:
+        '200':
+          description: Message accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /conversations/{conversationID}/assignee:
+    put:
+      tags:
+      - Hand-off
+      operationId: assignConversation
+      summary: Assign a conversation
+      description: >-
+        Assigns or reassigns a conversation to a participant. Set assignee_type
+        to ai-agent to assign the conversation to the Gradient Labs AI agent.
+      parameters:
+      - $ref: '#/components/parameters/ConversationID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignmentParams'
+      responses:
+        '200':
+          description: Conversation assigned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /conversations/{conversationID}/finish:
+    put:
+      tags:
+      - Conversations
+      operationId: finishConversation
+      summary: Finish a conversation
+      description: Marks a conversation as finished.
+      parameters:
+      - $ref: '#/components/parameters/ConversationID'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LifecycleParams'
+      responses:
+        '200':
+          description: Conversation finished.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /conversations/{conversationID}/cancel:
+    put:
+      tags:
+      - Conversations
+      operationId: cancelConversation
+      summary: Cancel a conversation
+      description: Cancels a conversation, stopping the AI agent from working it.
+      parameters:
+      - $ref: '#/components/parameters/ConversationID'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LifecycleParams'
+      responses:
+        '200':
+          description: Conversation cancelled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /conversations/{conversationID}/resume:
+    put:
+      tags:
+      - Conversations
+      operationId: resumeConversation
+      summary: Resume a conversation
+      description: Resumes a previously finished or cancelled conversation.
+      parameters:
+      - $ref: '#/components/parameters/ConversationID'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LifecycleParams'
+      responses:
+        '200':
+          description: Conversation resumed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /conversations/{conversationID}/rate:
+    put:
+      tags:
+      - Conversations
+      operationId: rateConversation
+      summary: Rate a conversation
+      description: >-
+        Records a customer satisfaction rating (e.g. CSAT survey) for a
+        conversation.
+      parameters:
+      - $ref: '#/components/parameters/ConversationID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RatingParams'
+      responses:
+        '200':
+          description: Rating recorded.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /tools:
+    post:
+      tags:
+      - Actions & Tools
+      operationId: createTool
+      summary: Create a tool
+      description: >-
+        Defines a business tool the AI agent can call. Requires a Management API
+        key.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tool'
+      responses:
+        '200':
+          description: Tool created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tool'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /tools/{id}/execute:
+    post:
+      tags:
+      - Actions & Tools
+      operationId: executeTool
+      summary: Execute a tool
+      description: >-
+        Executes a defined tool with the supplied arguments and returns its
+        JSON-encoded result. Requires a Management API key.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The tool identifier.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecutionParams'
+      responses:
+        '200':
+          description: Tool execution result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecuteResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /articles:
+    post:
+      tags:
+      - Knowledge
+      operationId: upsertArticle
+      summary: Upsert a knowledge article
+      description: >-
+        Creates or updates a knowledge-base article that grounds the AI agent's
+        answers.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertArticleParams'
+      responses:
+        '200':
+          description: Article upserted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        Provide your Gradient Labs API key as a Bearer token in the
+        Authorization header. Some administrative endpoints (tools) require a
+        Management API key.
+  parameters:
+    ConversationID:
+      name: conversationID
+      in: path
+      required: true
+      description: Your unique identifier for the conversation.
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    ParticipantType:
+      type: string
+      description: The type of participant in a conversation.
+      enum:
+      - ai-agent
+      - customer
+      - human-agent
+    Channel:
+      type: string
+      description: >-
+        The channel a conversation is taking place on; determines how the AI
+        agent formats its responses.
+      enum:
+      - email
+      - chat
+      - sms
+      - voice
+    StartConversationParams:
+      type: object
+      required:
+      - id
+      - customer_id
+      - channel
+      properties:
+        id:
+          type: string
+          description: Uniquely identifies the conversation.
+        customer_id:
+          type: string
+          description: >-
+            Identifies the customer, used to build historical context across
+            conversations.
+        assignee_id:
+          type: string
+          description: The participant the conversation is assigned to.
+        assignee_type:
+          $ref: '#/components/schemas/ParticipantType'
+        channel:
+          $ref: '#/components/schemas/Channel'
+        created:
+          type: string
+          format: date-time
+          description: When the conversation started; defaults to now.
+        resources:
+          type: object
+          additionalProperties: true
+          description: Arbitrary data made available to the AI agent.
+        conversation_token:
+          type: string
+          description: >-
+            A sensitive token echoed back in webhooks and tool calls for this
+            conversation.
+        traffic_group_id:
+          type: string
+          description: Restricts the conversation to a specific group of procedures.
+    Conversation:
+      type: object
+      properties:
+        id:
+          type: string
+        customer_id:
+          type: string
+        channel:
+          $ref: '#/components/schemas/Channel'
+        assignee_id:
+          type: string
+        assignee_type:
+          $ref: '#/components/schemas/ParticipantType'
+        status:
+          type: string
+          description: Current lifecycle status of the conversation.
+        created:
+          type: string
+          format: date-time
+    AddMessageParams:
+      type: object
+      required:
+      - id
+      - body
+      - participant_id
+      - participant_type
+      properties:
+        id:
+          type: string
+          description: >-
+            Unique message identifier (letters, numbers and _ - + = characters).
+        body:
+          type: string
+          description: The message text.
+        subject:
+          type: string
+          description: Email subject line, when applicable.
+        participant_id:
+          type: string
+          description: Identifier of the sender.
+        participant_type:
+          $ref: '#/components/schemas/ParticipantType'
+        created:
+          type: string
+          format: date-time
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+        body:
+          type: string
+        subject:
+          type: string
+        participant_id:
+          type: string
+        participant_type:
+          $ref: '#/components/schemas/ParticipantType'
+        created:
+          type: string
+          format: date-time
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+        conversation_token:
+          type: string
+    Attachment:
+      type: object
+      properties:
+        id:
+          type: string
+        filename:
+          type: string
+        url:
+          type: string
+          format: uri
+        content_type:
+          type: string
+    AssignmentParams:
+      type: object
+      required:
+      - assignee_type
+      properties:
+        assignee_id:
+          type: string
+          description: The specific user the conversation is being assigned to.
+        assignee_type:
+          $ref: '#/components/schemas/ParticipantType'
+        timestamp:
+          type: string
+          format: date-time
+          description: When the assignment happened; defaults to now.
+        reason:
+          type: string
+          description: Optional description of why this assignment is happening.
+    LifecycleParams:
+      type: object
+      description: Common parameters for finish, cancel, and resume operations.
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: When the lifecycle change occurred; defaults to now.
+        reason:
+          type: string
+          description: Optional description of why the change is happening.
+    RatingParams:
+      type: object
+      required:
+      - type
+      - value
+      - max_value
+      - min_value
+      properties:
+        type:
+          type: string
+          description: The type of survey sent to the customer (e.g. csat).
+        value:
+          type: integer
+          description: The rating score the customer gave.
+        max_value:
+          type: integer
+          description: Maximum value of the rating scale.
+        min_value:
+          type: integer
+          description: Minimum value of the rating scale.
+        comments:
+          type: string
+          description: Optional free-text feedback from the customer.
+        timestamp:
+          type: string
+          format: date-time
+          description: When the rating was given; defaults to now.
+    Tool:
+      type: object
+      description: >-
+        A business tool the AI agent can call. Fields are modeled; verify the
+        exact shape against the gated API reference.
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ToolParameter'
+        execution:
+          type: string
+          description: >-
+            How the tool is executed - via webhook (action.execute delivered to
+            your endpoint) or via a configured HTTP request.
+    ToolParameter:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        required:
+          type: boolean
+    ExecutionParams:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          description: The tool identifier.
+        arguments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Argument'
+    Argument:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    ExecuteResult:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The tool identifier.
+        result:
+          description: The JSON-encoded result of the tool execution, if it succeeded.
+        error:
+          type: string
+          description: Error message if execution failed.
+    UpsertArticleParams:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          description: Your chosen identifier for the article.
+        author_id:
+          type: string
+          description: Identifies the user who last edited the article.
+        title:
+          type: string
+          description: The article's heading (may be empty for drafts).
+        description:
+          type: string
+          description: A tagline for the article.
+        body:
+          type: string
+          description: The main content (may be empty for drafts).
+        visibility:
+          type: string
+          description: Access level (e.g. public, internal).
+        topic_id:
+          type: string
+          description: Associated topic identifier.
+        status:
+          type: string
+          description: Publication state (e.g. published, draft).
+        data:
+          type: object
+          additionalProperties: true
+          description: Additional metadata as JSON.
+        created:
+          type: string
+          format: date-time
+        last_edited:
+          type: string
+          format: date-time
+    Article:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        body:
+          type: string
+        visibility:
+          type: string
+        topic_id:
+          type: string
+        status:
+          type: string
+        created:
+          type: string
+          format: date-time
+        last_edited:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+    WebhookEnvelope:
+      type: object
+      description: >-
+        Common envelope for all webhook events the AI agent delivers. Requests
+        are signed; verify them with your webhook signing key. The
+        sequence_number increments per conversation so you can establish a total
+        order of events.
+      properties:
+        id:
+          type: string
+          description: Unique event identifier.
+        type:
+          type: string
+          description: The event type.
+          enum:
+          - agent.message
+          - conversation.hand_off
+          - conversation.finished
+          - action.execute
+          - resource.pull
+        sequence_number:
+          type: integer
+          description: Incrementing number establishing total event order.
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          additionalProperties: true
+          description: >-
+            Event-specific payload. For agent.message includes conversation,
+            body, total, sequence, intent, is_holding. For
+            conversation.hand_off includes conversation, target, reason_code,
+            reason, note, intent. For conversation.finished includes
+            conversation, reason_code, intent. For action.execute includes
+            action, params, conversation. For resource.pull includes
+            resource_type, conversation.
+webhooks:
+  agentMessage:
+    post:
+      summary: agent.message
+      description: >-
+        Delivered when the AI agent produces an outbound message for the
+        customer.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookEnvelope'
+      responses:
+        '200':
+          description: Acknowledged.
+  conversationHandOff:
+    post:
+      summary: conversation.hand_off
+      description: >-
+        Delivered when the AI agent escalates a conversation to a human agent,
+        including reason_code, reason, target, and note.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookEnvelope'
+      responses:
+        '200':
+          description: Acknowledged.
+  conversationFinished:
+    post:
+      summary: conversation.finished
+      description: >-
+        Delivered when the AI agent concludes a conversation, including
+        reason_code and classified intent.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookEnvelope'
+      responses:
+        '200':
+          description: Acknowledged.
+  actionExecute:
+    post:
+      summary: action.execute
+      description: >-
+        Delivered when the AI agent needs your system to execute an action
+        (tool), including the action name and params.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookEnvelope'
+      responses:
+        '200':
+          description: Acknowledged.
+  resourcePull:
+    post:
+      summary: resource.pull
+      description: >-
+        Delivered when the AI agent wants to pull a resource of a given
+        resource_type for the conversation.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookEnvelope'
+      responses:
+        '200':
+          description: Acknowledged.

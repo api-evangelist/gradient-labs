@@ -1,0 +1,165 @@
+aid: gradient-labs
+url: https://raw.githubusercontent.com/api-evangelist/gradient-labs/refs/heads/main/apis.yml
+name: Gradient Labs
+kind: company
+description: Gradient Labs builds "Otto", an AI customer support agent that autonomously
+  handles complex, end-to-end support conversations for regulated and financial services
+  businesses. The API lets you start and drive conversations, stream customer messages,
+  hand off to human agents, execute business actions/tools, and manage the knowledge
+  base the agent reasons over, with signed webhooks delivering the agent's outbound
+  messages and events.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- AI
+- Customer Support
+- AI Agent
+- Conversations
+- Financial Services
+- Regulated
+created: '2026-07-01'
+modified: '2026-07-01'
+specificationVersion: '0.19'
+apis:
+- aid: gradient-labs:gradient-labs-conversations-api
+  name: Gradient Labs Conversations API
+  tags:
+  - Conversations
+  - AI Agent
+  - Support
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-docs.gradient-labs.ai/
+  baseURL: https://api.gradient-labs.ai
+  properties:
+  - url: https://api-docs.gradient-labs.ai/
+    type: Documentation
+  - url: openapi/gradient-labs-openapi.yml
+    type: OpenAPI
+  - url: collections/gradient-labs.postman_collection.json
+    type: PostmanCollection
+  - url: collections/gradient-labs.opencollection.json
+    type: OpenCollection
+  description: Start a conversation, assign it to the Gradient Labs AI agent, read
+    its current state, and manage its lifecycle (finish, cancel, resume). The AI
+    agent autonomously works the conversation and emits outbound messages and events
+    via webhooks.
+- aid: gradient-labs:gradient-labs-messages-api
+  name: Gradient Labs Messages API
+  tags:
+  - Messages
+  - Conversations
+  - Attachments
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-docs.gradient-labs.ai/
+  baseURL: https://api.gradient-labs.ai
+  properties:
+  - url: https://api-docs.gradient-labs.ai/
+    type: Documentation
+  - url: openapi/gradient-labs-openapi.yml
+    type: OpenAPI
+  - url: collections/gradient-labs.postman_collection.json
+    type: PostmanCollection
+  - url: collections/gradient-labs.opencollection.json
+    type: OpenCollection
+  description: Add inbound customer and human-agent messages (with optional email
+    subject and attachments) to an existing conversation for the AI agent to
+    process.
+- aid: gradient-labs:gradient-labs-hand-off-api
+  name: Gradient Labs Hand-off & Assignment API
+  tags:
+  - Hand-off
+  - Assignment
+  - Human Agent
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-docs.gradient-labs.ai/
+  baseURL: https://api.gradient-labs.ai
+  properties:
+  - url: https://api-docs.gradient-labs.ai/
+    type: Documentation
+  - url: openapi/gradient-labs-openapi.yml
+    type: OpenAPI
+  - url: collections/gradient-labs.postman_collection.json
+    type: PostmanCollection
+  - url: collections/gradient-labs.opencollection.json
+    type: OpenCollection
+  description: Assign or reassign a conversation between the AI agent and human
+    participants, and capture the conversation.hand_off webhook the agent emits
+    when it decides to escalate to a human, including reason code and routing
+    target.
+- aid: gradient-labs:gradient-labs-actions-tools-api
+  name: Gradient Labs Actions & Tools API
+  tags:
+  - Actions
+  - Tools
+  - Function Calling
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-docs.gradient-labs.ai/
+  baseURL: https://api.gradient-labs.ai
+  properties:
+  - url: https://api-docs.gradient-labs.ai/
+    type: Documentation
+  - url: openapi/gradient-labs-openapi.yml
+    type: OpenAPI
+  - url: collections/gradient-labs.postman_collection.json
+    type: PostmanCollection
+  - url: collections/gradient-labs.opencollection.json
+    type: OpenCollection
+  description: Define the business tools the AI agent can call and execute them.
+    Tools can be run via the API or delivered to your endpoint through the
+    action.execute webhook so the agent can take real actions in your systems.
+- aid: gradient-labs:gradient-labs-knowledge-api
+  name: Gradient Labs Knowledge API
+  tags:
+  - Knowledge
+  - Articles
+  - Content
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-docs.gradient-labs.ai/
+  baseURL: https://api.gradient-labs.ai
+  properties:
+  - url: https://api-docs.gradient-labs.ai/
+    type: Documentation
+  - url: openapi/gradient-labs-openapi.yml
+    type: OpenAPI
+  - url: collections/gradient-labs.postman_collection.json
+    type: PostmanCollection
+  - url: collections/gradient-labs.opencollection.json
+    type: OpenCollection
+  description: Upsert and delete knowledge-base articles (title, description, body,
+    visibility, topic, status) that ground the AI agent's answers, organized by
+    topic.
+- aid: gradient-labs:gradient-labs-webhooks-api
+  name: Gradient Labs Webhooks API
+  tags:
+  - Webhooks
+  - Events
+  - Signing
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-docs.gradient-labs.ai/
+  baseURL: https://api.gradient-labs.ai
+  properties:
+  - url: https://api-docs.gradient-labs.ai/
+    type: Documentation
+  - url: openapi/gradient-labs-openapi.yml
+    type: OpenAPI
+  description: Signed, ordered webhook events the AI agent delivers to your endpoint -
+    agent.message, conversation.hand_off, conversation.finished, action.execute,
+    and resource.pull - each carrying an incrementing sequence_number so you can
+    establish a total order of events per conversation.
+common:
+- type: LinkedIn
+  url: https://www.linkedin.com/company/gradient-labs-ai
+- type: Website
+  url: https://www.gradient-labs.ai
+- type: Documentation
+  url: https://api-docs.gradient-labs.ai/
+- type: GitHubOrganization
+  url: https://github.com/gradientlabs-ai
+- type: Plans
+  url: plans/gradient-labs-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/gradient-labs-rate-limits.yml
+- type: FinOps
+  url: finops/gradient-labs-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
