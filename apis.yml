@@ -146,6 +146,10 @@ apis:
     and resource.pull - each carrying an incrementing sequence_number so you can
     establish a total order of events per conversation.
 common:
+- type: DomainSecurity
+  url: security/gradient-labs-domain-security.yml
+- type: Authentication
+  url: authentication/gradient-labs-authentication.yml
 - type: LinkedIn
   url: https://www.linkedin.com/company/gradient-labs-ai
 - type: Website
@@ -160,6 +164,8 @@ common:
   url: rate-limits/gradient-labs-rate-limits.yml
 - type: FinOps
   url: finops/gradient-labs-finops.yml
+- url: https://blog.gradient-labs.ai/feed
+  type: Blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

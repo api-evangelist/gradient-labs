@@ -1,0 +1,14 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/gradient-labs-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: Provide your Gradient Labs API key as a Bearer token in the Authorization header.
+    Some administrative endpoints (tools) require a Management API key.
+  sources:
+  - openapi/gradient-labs-openapi.yml
