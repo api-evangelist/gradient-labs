@@ -146,6 +146,8 @@ apis:
     and resource.pull - each carrying an incrementing sequence_number so you can
     establish a total order of events per conversation.
 common:
+- type: AgenticAccess
+  url: agentic-access/gradient-labs-agentic-access.yml
 - type: DomainSecurity
   url: security/gradient-labs-domain-security.yml
 - type: Authentication
