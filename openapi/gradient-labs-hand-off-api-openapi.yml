@@ -1,0 +1,137 @@
+openapi: 3.1.0
+info:
+  title: Gradient Labs Actions & Tools Hand-off API
+  version: '1.0'
+  description: 'HTTP API for Gradient Labs'' AI customer support agent ("Otto"). Use it to start and drive support conversations, add customer and human-agent messages, assign work to the AI agent, hand off to humans, run business tools/actions, and manage the knowledge base the agent reasons over.
+
+
+    All requests are authenticated with a Bearer API key in the `Authorization` header. Unless stated otherwise, endpoints are idempotent and requests can be safely retried.
+
+
+    IMPORTANT (accuracy note): Gradient Labs'' public API reference at https://api-docs.gradient-labs.ai/ is behind an access-code gate. The paths, verbs, and field names in this document were reconstructed from the vendor''s official open-source Go SDK (github.com/gradientlabs-ai/gradientlabs-go) and corroborating SDKs. Request/response schemas are modeled and simplified; verify exact field-level shapes against the gated reference before relying on them in production. See review.yml (endpointsConfirmed vs endpointsModeled).'
+  contact:
+    name: Gradient Labs
+    url: https://www.gradient-labs.ai
+  license:
+    name: Proprietary
+servers:
+- url: https://api.gradient-labs.ai
+  description: Gradient Labs production API
+security:
+- bearerAuth: []
+tags:
+- name: Hand-off
+  description: Assign conversations between the AI agent and human participants.
+paths:
+  /conversations/{conversationID}/assignee:
+    put:
+      tags:
+      - Hand-off
+      operationId: assignConversation
+      summary: Assign a conversation
+      description: Assigns or reassigns a conversation to a participant. Set assignee_type to ai-agent to assign the conversation to the Gradient Labs AI agent.
+      parameters:
+      - $ref: '#/components/parameters/ConversationID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignmentParams'
+      responses:
+        '200':
+          description: Conversation assigned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    Conversation:
+      type: object
+      properties:
+        id:
+          type: string
+        customer_id:
+          type: string
+        channel:
+          $ref: '#/components/schemas/Channel'
+        assignee_id:
+          type: string
+        assignee_type:
+          $ref: '#/components/schemas/ParticipantType'
+        status:
+          type: string
+          description: Current lifecycle status of the conversation.
+        created:
+          type: string
+          format: date-time
+    AssignmentParams:
+      type: object
+      required:
+      - assignee_type
+      properties:
+        assignee_id:
+          type: string
+          description: The specific user the conversation is being assigned to.
+        assignee_type:
+          $ref: '#/components/schemas/ParticipantType'
+        timestamp:
+          type: string
+          format: date-time
+          description: When the assignment happened; defaults to now.
+        reason:
+          type: string
+          description: Optional description of why this assignment is happening.
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+    Channel:
+      type: string
+      description: The channel a conversation is taking place on; determines how the AI agent formats its responses.
+      enum:
+      - email
+      - chat
+      - sms
+      - voice
+    ParticipantType:
+      type: string
+      description: The type of participant in a conversation.
+      enum:
+      - ai-agent
+      - customer
+      - human-agent
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    ConversationID:
+      name: conversationID
+      in: path
+      required: true
+      description: Your unique identifier for the conversation.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Provide your Gradient Labs API key as a Bearer token in the Authorization header. Some administrative endpoints (tools) require a Management API key.

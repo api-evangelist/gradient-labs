@@ -1,0 +1,156 @@
+openapi: 3.1.0
+info:
+  title: Gradient Labs Actions & Tools Messages API
+  version: '1.0'
+  description: 'HTTP API for Gradient Labs'' AI customer support agent ("Otto"). Use it to start and drive support conversations, add customer and human-agent messages, assign work to the AI agent, hand off to humans, run business tools/actions, and manage the knowledge base the agent reasons over.
+
+
+    All requests are authenticated with a Bearer API key in the `Authorization` header. Unless stated otherwise, endpoints are idempotent and requests can be safely retried.
+
+
+    IMPORTANT (accuracy note): Gradient Labs'' public API reference at https://api-docs.gradient-labs.ai/ is behind an access-code gate. The paths, verbs, and field names in this document were reconstructed from the vendor''s official open-source Go SDK (github.com/gradientlabs-ai/gradientlabs-go) and corroborating SDKs. Request/response schemas are modeled and simplified; verify exact field-level shapes against the gated reference before relying on them in production. See review.yml (endpointsConfirmed vs endpointsModeled).'
+  contact:
+    name: Gradient Labs
+    url: https://www.gradient-labs.ai
+  license:
+    name: Proprietary
+servers:
+- url: https://api.gradient-labs.ai
+  description: Gradient Labs production API
+security:
+- bearerAuth: []
+tags:
+- name: Messages
+  description: Add inbound messages to a conversation.
+paths:
+  /conversations/{conversationID}/messages:
+    post:
+      tags:
+      - Messages
+      operationId: addMessage
+      summary: Add a message to a conversation
+      description: Adds an inbound message (from the customer or a human agent) to a conversation for the AI agent to process. The participant type cannot be the AI agent.
+      parameters:
+      - $ref: '#/components/parameters/ConversationID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddMessageParams'
+      responses:
+        '200':
+          description: Message accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    ConversationID:
+      name: conversationID
+      in: path
+      required: true
+      description: Your unique identifier for the conversation.
+      schema:
+        type: string
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+        body:
+          type: string
+        subject:
+          type: string
+        participant_id:
+          type: string
+        participant_type:
+          $ref: '#/components/schemas/ParticipantType'
+        created:
+          type: string
+          format: date-time
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+        conversation_token:
+          type: string
+    Attachment:
+      type: object
+      properties:
+        id:
+          type: string
+        filename:
+          type: string
+        url:
+          type: string
+          format: uri
+        content_type:
+          type: string
+    ParticipantType:
+      type: string
+      description: The type of participant in a conversation.
+      enum:
+      - ai-agent
+      - customer
+      - human-agent
+    AddMessageParams:
+      type: object
+      required:
+      - id
+      - body
+      - participant_id
+      - participant_type
+      properties:
+        id:
+          type: string
+          description: Unique message identifier (letters, numbers and _ - + = characters).
+        body:
+          type: string
+          description: The message text.
+        subject:
+          type: string
+          description: Email subject line, when applicable.
+        participant_id:
+          type: string
+          description: Identifier of the sender.
+        participant_type:
+          $ref: '#/components/schemas/ParticipantType'
+        created:
+          type: string
+          format: date-time
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Provide your Gradient Labs API key as a Bearer token in the Authorization header. Some administrative endpoints (tools) require a Management API key.

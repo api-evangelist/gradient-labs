@@ -1,0 +1,130 @@
+openapi: 3.1.0
+info:
+  title: Gradient Labs Actions & Tools Knowledge API
+  version: '1.0'
+  description: 'HTTP API for Gradient Labs'' AI customer support agent ("Otto"). Use it to start and drive support conversations, add customer and human-agent messages, assign work to the AI agent, hand off to humans, run business tools/actions, and manage the knowledge base the agent reasons over.
+
+
+    All requests are authenticated with a Bearer API key in the `Authorization` header. Unless stated otherwise, endpoints are idempotent and requests can be safely retried.
+
+
+    IMPORTANT (accuracy note): Gradient Labs'' public API reference at https://api-docs.gradient-labs.ai/ is behind an access-code gate. The paths, verbs, and field names in this document were reconstructed from the vendor''s official open-source Go SDK (github.com/gradientlabs-ai/gradientlabs-go) and corroborating SDKs. Request/response schemas are modeled and simplified; verify exact field-level shapes against the gated reference before relying on them in production. See review.yml (endpointsConfirmed vs endpointsModeled).'
+  contact:
+    name: Gradient Labs
+    url: https://www.gradient-labs.ai
+  license:
+    name: Proprietary
+servers:
+- url: https://api.gradient-labs.ai
+  description: Gradient Labs production API
+security:
+- bearerAuth: []
+tags:
+- name: Knowledge
+  description: Manage knowledge-base articles that ground the AI agent.
+paths:
+  /articles:
+    post:
+      tags:
+      - Knowledge
+      operationId: upsertArticle
+      summary: Upsert a knowledge article
+      description: Creates or updates a knowledge-base article that grounds the AI agent's answers.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertArticleParams'
+      responses:
+        '200':
+          description: Article upserted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    UpsertArticleParams:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          description: Your chosen identifier for the article.
+        author_id:
+          type: string
+          description: Identifies the user who last edited the article.
+        title:
+          type: string
+          description: The article's heading (may be empty for drafts).
+        description:
+          type: string
+          description: A tagline for the article.
+        body:
+          type: string
+          description: The main content (may be empty for drafts).
+        visibility:
+          type: string
+          description: Access level (e.g. public, internal).
+        topic_id:
+          type: string
+          description: Associated topic identifier.
+        status:
+          type: string
+          description: Publication state (e.g. published, draft).
+        data:
+          type: object
+          additionalProperties: true
+          description: Additional metadata as JSON.
+        created:
+          type: string
+          format: date-time
+        last_edited:
+          type: string
+          format: date-time
+    Article:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        body:
+          type: string
+        visibility:
+          type: string
+        topic_id:
+          type: string
+        status:
+          type: string
+        created:
+          type: string
+          format: date-time
+        last_edited:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Provide your Gradient Labs API key as a Bearer token in the Authorization header. Some administrative endpoints (tools) require a Management API key.

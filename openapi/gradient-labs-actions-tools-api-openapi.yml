@@ -1,0 +1,163 @@
+openapi: 3.1.0
+info:
+  title: Gradient Labs Actions & Tools API
+  version: '1.0'
+  description: 'HTTP API for Gradient Labs'' AI customer support agent ("Otto"). Use it to start and drive support conversations, add customer and human-agent messages, assign work to the AI agent, hand off to humans, run business tools/actions, and manage the knowledge base the agent reasons over.
+
+
+    All requests are authenticated with a Bearer API key in the `Authorization` header. Unless stated otherwise, endpoints are idempotent and requests can be safely retried.
+
+
+    IMPORTANT (accuracy note): Gradient Labs'' public API reference at https://api-docs.gradient-labs.ai/ is behind an access-code gate. The paths, verbs, and field names in this document were reconstructed from the vendor''s official open-source Go SDK (github.com/gradientlabs-ai/gradientlabs-go) and corroborating SDKs. Request/response schemas are modeled and simplified; verify exact field-level shapes against the gated reference before relying on them in production. See review.yml (endpointsConfirmed vs endpointsModeled).'
+  contact:
+    name: Gradient Labs
+    url: https://www.gradient-labs.ai
+  license:
+    name: Proprietary
+servers:
+- url: https://api.gradient-labs.ai
+  description: Gradient Labs production API
+security:
+- bearerAuth: []
+tags:
+- name: Actions & Tools
+  description: Define and execute business tools the AI agent can call.
+paths:
+  /tools:
+    post:
+      tags:
+      - Actions & Tools
+      operationId: createTool
+      summary: Create a tool
+      description: Defines a business tool the AI agent can call. Requires a Management API key.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tool'
+      responses:
+        '200':
+          description: Tool created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tool'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /tools/{id}/execute:
+    post:
+      tags:
+      - Actions & Tools
+      operationId: executeTool
+      summary: Execute a tool
+      description: Executes a defined tool with the supplied arguments and returns its JSON-encoded result. Requires a Management API key.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The tool identifier.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecutionParams'
+      responses:
+        '200':
+          description: Tool execution result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecuteResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    ExecuteResult:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The tool identifier.
+        result:
+          description: The JSON-encoded result of the tool execution, if it succeeded.
+        error:
+          type: string
+          description: Error message if execution failed.
+    Tool:
+      type: object
+      description: A business tool the AI agent can call. Fields are modeled; verify the exact shape against the gated API reference.
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ToolParameter'
+        execution:
+          type: string
+          description: How the tool is executed - via webhook (action.execute delivered to your endpoint) or via a configured HTTP request.
+    Argument:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    ExecutionParams:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          description: The tool identifier.
+        arguments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Argument'
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+    ToolParameter:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        required:
+          type: boolean
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Provide your Gradient Labs API key as a Bearer token in the Authorization header. Some administrative endpoints (tools) require a Management API key.

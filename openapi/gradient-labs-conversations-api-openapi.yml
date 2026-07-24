@@ -1,0 +1,322 @@
+openapi: 3.1.0
+info:
+  title: Gradient Labs Actions & Tools Conversations API
+  version: '1.0'
+  description: 'HTTP API for Gradient Labs'' AI customer support agent ("Otto"). Use it to start and drive support conversations, add customer and human-agent messages, assign work to the AI agent, hand off to humans, run business tools/actions, and manage the knowledge base the agent reasons over.
+
+
+    All requests are authenticated with a Bearer API key in the `Authorization` header. Unless stated otherwise, endpoints are idempotent and requests can be safely retried.
+
+
+    IMPORTANT (accuracy note): Gradient Labs'' public API reference at https://api-docs.gradient-labs.ai/ is behind an access-code gate. The paths, verbs, and field names in this document were reconstructed from the vendor''s official open-source Go SDK (github.com/gradientlabs-ai/gradientlabs-go) and corroborating SDKs. Request/response schemas are modeled and simplified; verify exact field-level shapes against the gated reference before relying on them in production. See review.yml (endpointsConfirmed vs endpointsModeled).'
+  contact:
+    name: Gradient Labs
+    url: https://www.gradient-labs.ai
+  license:
+    name: Proprietary
+servers:
+- url: https://api.gradient-labs.ai
+  description: Gradient Labs production API
+security:
+- bearerAuth: []
+tags:
+- name: Conversations
+  description: Start, read, and manage the lifecycle of AI-agent conversations.
+paths:
+  /conversations:
+    post:
+      tags:
+      - Conversations
+      operationId: startConversation
+      summary: Start a conversation
+      description: Creates a new conversation and (optionally) assigns it to the Gradient Labs AI agent so it begins working the conversation autonomously.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartConversationParams'
+      responses:
+        '200':
+          description: Conversation started.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /conversations/{conversationID}/read:
+    get:
+      tags:
+      - Conversations
+      operationId: readConversation
+      summary: Read a conversation
+      description: Returns the current state of a conversation.
+      parameters:
+      - $ref: '#/components/parameters/ConversationID'
+      - name: support_platform
+        in: query
+        required: false
+        description: Identifies the support platform (e.g. intercom) if the conversation was initiated through one.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Conversation state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /conversations/{conversationID}/finish:
+    put:
+      tags:
+      - Conversations
+      operationId: finishConversation
+      summary: Finish a conversation
+      description: Marks a conversation as finished.
+      parameters:
+      - $ref: '#/components/parameters/ConversationID'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LifecycleParams'
+      responses:
+        '200':
+          description: Conversation finished.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /conversations/{conversationID}/cancel:
+    put:
+      tags:
+      - Conversations
+      operationId: cancelConversation
+      summary: Cancel a conversation
+      description: Cancels a conversation, stopping the AI agent from working it.
+      parameters:
+      - $ref: '#/components/parameters/ConversationID'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LifecycleParams'
+      responses:
+        '200':
+          description: Conversation cancelled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /conversations/{conversationID}/resume:
+    put:
+      tags:
+      - Conversations
+      operationId: resumeConversation
+      summary: Resume a conversation
+      description: Resumes a previously finished or cancelled conversation.
+      parameters:
+      - $ref: '#/components/parameters/ConversationID'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LifecycleParams'
+      responses:
+        '200':
+          description: Conversation resumed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /conversations/{conversationID}/rate:
+    put:
+      tags:
+      - Conversations
+      operationId: rateConversation
+      summary: Rate a conversation
+      description: Records a customer satisfaction rating (e.g. CSAT survey) for a conversation.
+      parameters:
+      - $ref: '#/components/parameters/ConversationID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RatingParams'
+      responses:
+        '200':
+          description: Rating recorded.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    Conversation:
+      type: object
+      properties:
+        id:
+          type: string
+        customer_id:
+          type: string
+        channel:
+          $ref: '#/components/schemas/Channel'
+        assignee_id:
+          type: string
+        assignee_type:
+          $ref: '#/components/schemas/ParticipantType'
+        status:
+          type: string
+          description: Current lifecycle status of the conversation.
+        created:
+          type: string
+          format: date-time
+    LifecycleParams:
+      type: object
+      description: Common parameters for finish, cancel, and resume operations.
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: When the lifecycle change occurred; defaults to now.
+        reason:
+          type: string
+          description: Optional description of why the change is happening.
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+    Channel:
+      type: string
+      description: The channel a conversation is taking place on; determines how the AI agent formats its responses.
+      enum:
+      - email
+      - chat
+      - sms
+      - voice
+    StartConversationParams:
+      type: object
+      required:
+      - id
+      - customer_id
+      - channel
+      properties:
+        id:
+          type: string
+          description: Uniquely identifies the conversation.
+        customer_id:
+          type: string
+          description: Identifies the customer, used to build historical context across conversations.
+        assignee_id:
+          type: string
+          description: The participant the conversation is assigned to.
+        assignee_type:
+          $ref: '#/components/schemas/ParticipantType'
+        channel:
+          $ref: '#/components/schemas/Channel'
+        created:
+          type: string
+          format: date-time
+          description: When the conversation started; defaults to now.
+        resources:
+          type: object
+          additionalProperties: true
+          description: Arbitrary data made available to the AI agent.
+        conversation_token:
+          type: string
+          description: A sensitive token echoed back in webhooks and tool calls for this conversation.
+        traffic_group_id:
+          type: string
+          description: Restricts the conversation to a specific group of procedures.
+    RatingParams:
+      type: object
+      required:
+      - type
+      - value
+      - max_value
+      - min_value
+      properties:
+        type:
+          type: string
+          description: The type of survey sent to the customer (e.g. csat).
+        value:
+          type: integer
+          description: The rating score the customer gave.
+        max_value:
+          type: integer
+          description: Maximum value of the rating scale.
+        min_value:
+          type: integer
+          description: Minimum value of the rating scale.
+        comments:
+          type: string
+          description: Optional free-text feedback from the customer.
+        timestamp:
+          type: string
+          format: date-time
+          description: When the rating was given; defaults to now.
+    ParticipantType:
+      type: string
+      description: The type of participant in a conversation.
+      enum:
+      - ai-agent
+      - customer
+      - human-agent
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    ConversationID:
+      name: conversationID
+      in: path
+      required: true
+      description: Your unique identifier for the conversation.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Provide your Gradient Labs API key as a Bearer token in the Authorization header. Some administrative endpoints (tools) require a Management API key.
