@@ -8,7 +8,20 @@ description: Gradient Labs builds "Otto", an AI customer support agent that auto
   hand off to human agents, execute business actions/tools, and manage the knowledge
   base the agent reasons over, with signed webhooks delivering the agent's outbound
   messages and events.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: enterprise
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Enterprise · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/gradient-labs.png
 tags:
 - AI
 - Customer Support
@@ -20,131 +33,86 @@ created: '2026-07-01'
 modified: '2026-07-01'
 specificationVersion: '0.19'
 apis:
-- aid: gradient-labs:gradient-labs-conversations-api
-  name: Gradient Labs Conversations API
-  tags:
-  - Conversations
-  - AI Agent
-  - Support
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://api-docs.gradient-labs.ai/
-  baseURL: https://api.gradient-labs.ai
-  properties:
-  - url: https://api-docs.gradient-labs.ai/
-    type: Documentation
-  - url: openapi/gradient-labs-openapi.yml
-    type: OpenAPI
-  - url: collections/gradient-labs.postman_collection.json
-    type: PostmanCollection
-  - url: collections/gradient-labs.opencollection.json
-    type: OpenCollection
-  description: Start a conversation, assign it to the Gradient Labs AI agent, read
-    its current state, and manage its lifecycle (finish, cancel, resume). The AI
-    agent autonomously works the conversation and emits outbound messages and events
-    via webhooks.
-- aid: gradient-labs:gradient-labs-messages-api
-  name: Gradient Labs Messages API
-  tags:
-  - Messages
-  - Conversations
-  - Attachments
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://api-docs.gradient-labs.ai/
-  baseURL: https://api.gradient-labs.ai
-  properties:
-  - url: https://api-docs.gradient-labs.ai/
-    type: Documentation
-  - url: openapi/gradient-labs-openapi.yml
-    type: OpenAPI
-  - url: collections/gradient-labs.postman_collection.json
-    type: PostmanCollection
-  - url: collections/gradient-labs.opencollection.json
-    type: OpenCollection
-  description: Add inbound customer and human-agent messages (with optional email
-    subject and attachments) to an existing conversation for the AI agent to
-    process.
-- aid: gradient-labs:gradient-labs-hand-off-api
-  name: Gradient Labs Hand-off & Assignment API
-  tags:
-  - Hand-off
-  - Assignment
-  - Human Agent
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://api-docs.gradient-labs.ai/
-  baseURL: https://api.gradient-labs.ai
-  properties:
-  - url: https://api-docs.gradient-labs.ai/
-    type: Documentation
-  - url: openapi/gradient-labs-openapi.yml
-    type: OpenAPI
-  - url: collections/gradient-labs.postman_collection.json
-    type: PostmanCollection
-  - url: collections/gradient-labs.opencollection.json
-    type: OpenCollection
-  description: Assign or reassign a conversation between the AI agent and human
-    participants, and capture the conversation.hand_off webhook the agent emits
-    when it decides to escalate to a human, including reason code and routing
-    target.
 - aid: gradient-labs:gradient-labs-actions-tools-api
   name: Gradient Labs Actions & Tools API
-  tags:
-  - Actions
-  - Tools
-  - Function Calling
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  description: Define and execute business tools the AI agent can call.
   humanURL: https://api-docs.gradient-labs.ai/
   baseURL: https://api.gradient-labs.ai
+  tags:
+  - Actions & Tools
   properties:
-  - url: https://api-docs.gradient-labs.ai/
-    type: Documentation
-  - url: openapi/gradient-labs-openapi.yml
-    type: OpenAPI
-  - url: collections/gradient-labs.postman_collection.json
-    type: PostmanCollection
-  - url: collections/gradient-labs.opencollection.json
-    type: OpenCollection
-  description: Define the business tools the AI agent can call and execute them.
-    Tools can be run via the API or delivered to your endpoint through the
-    action.execute webhook so the agent can take real actions in your systems.
+  - type: OpenAPI
+    url: openapi/gradient-labs-actions-tools-api-openapi.yml
+  - type: Documentation
+    url: https://api-docs.gradient-labs.ai/
+  - type: PostmanCollection
+    url: collections/gradient-labs.postman_collection.json
+  - type: OpenCollection
+    url: collections/gradient-labs.opencollection.json
+- aid: gradient-labs:gradient-labs-conversations-api
+  name: Gradient Labs Conversations API
+  description: Start, read, and manage the lifecycle of AI-agent conversations.
+  humanURL: https://api-docs.gradient-labs.ai/
+  baseURL: https://api.gradient-labs.ai
+  tags:
+  - Conversations
+  properties:
+  - type: OpenAPI
+    url: openapi/gradient-labs-conversations-api-openapi.yml
+  - type: Documentation
+    url: https://api-docs.gradient-labs.ai/
+  - type: PostmanCollection
+    url: collections/gradient-labs.postman_collection.json
+  - type: OpenCollection
+    url: collections/gradient-labs.opencollection.json
+- aid: gradient-labs:gradient-labs-hand-off-api
+  name: Gradient Labs Hand-off API
+  description: Assign conversations between the AI agent and human participants.
+  humanURL: https://api-docs.gradient-labs.ai/
+  baseURL: https://api.gradient-labs.ai
+  tags:
+  - Hand-off
+  properties:
+  - type: OpenAPI
+    url: openapi/gradient-labs-hand-off-api-openapi.yml
+  - type: Documentation
+    url: https://api-docs.gradient-labs.ai/
+  - type: PostmanCollection
+    url: collections/gradient-labs.postman_collection.json
+  - type: OpenCollection
+    url: collections/gradient-labs.opencollection.json
 - aid: gradient-labs:gradient-labs-knowledge-api
   name: Gradient Labs Knowledge API
+  description: Manage knowledge-base articles that ground the AI agent.
+  humanURL: https://api-docs.gradient-labs.ai/
+  baseURL: https://api.gradient-labs.ai
   tags:
   - Knowledge
-  - Articles
-  - Content
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  properties:
+  - type: OpenAPI
+    url: openapi/gradient-labs-knowledge-api-openapi.yml
+  - type: Documentation
+    url: https://api-docs.gradient-labs.ai/
+  - type: PostmanCollection
+    url: collections/gradient-labs.postman_collection.json
+  - type: OpenCollection
+    url: collections/gradient-labs.opencollection.json
+- aid: gradient-labs:gradient-labs-messages-api
+  name: Gradient Labs Messages API
+  description: Add inbound messages to a conversation.
   humanURL: https://api-docs.gradient-labs.ai/
   baseURL: https://api.gradient-labs.ai
-  properties:
-  - url: https://api-docs.gradient-labs.ai/
-    type: Documentation
-  - url: openapi/gradient-labs-openapi.yml
-    type: OpenAPI
-  - url: collections/gradient-labs.postman_collection.json
-    type: PostmanCollection
-  - url: collections/gradient-labs.opencollection.json
-    type: OpenCollection
-  description: Upsert and delete knowledge-base articles (title, description, body,
-    visibility, topic, status) that ground the AI agent's answers, organized by
-    topic.
-- aid: gradient-labs:gradient-labs-webhooks-api
-  name: Gradient Labs Webhooks API
   tags:
-  - Webhooks
-  - Events
-  - Signing
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://api-docs.gradient-labs.ai/
-  baseURL: https://api.gradient-labs.ai
+  - Messages
   properties:
-  - url: https://api-docs.gradient-labs.ai/
-    type: Documentation
-  - url: openapi/gradient-labs-openapi.yml
-    type: OpenAPI
-  description: Signed, ordered webhook events the AI agent delivers to your endpoint -
-    agent.message, conversation.hand_off, conversation.finished, action.execute,
-    and resource.pull - each carrying an incrementing sequence_number so you can
-    establish a total order of events per conversation.
+  - type: OpenAPI
+    url: openapi/gradient-labs-messages-api-openapi.yml
+  - type: Documentation
+    url: https://api-docs.gradient-labs.ai/
+  - type: PostmanCollection
+    url: collections/gradient-labs.postman_collection.json
+  - type: OpenCollection
+    url: collections/gradient-labs.opencollection.json
 common:
 - type: AgenticAccess
   url: agentic-access/gradient-labs-agentic-access.yml
