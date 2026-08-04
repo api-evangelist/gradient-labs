@@ -1,0 +1,22 @@
+{
+  "provider": "gradient-labs",
+  "sources": [
+    "gradient-labs-actions-tools-api-openapi.yml",
+    "gradient-labs-conversations-api-openapi.yml",
+    "gradient-labs-hand-off-api-openapi.yml",
+    "gradient-labs-knowledge-api-openapi.yml",
+    "gradient-labs-messages-api-openapi.yml"
+  ],
+  "outputs": [
+    "gradient-labs-actions-tools-api-openapi.yml",
+    "gradient-labs-conversations-api-openapi.yml",
+    "gradient-labs-hand-off-api-openapi.yml",
+    "gradient-labs-knowledge-api-openapi.yml",
+    "gradient-labs-messages-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
