@@ -1,0 +1,156 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gradient Labs Actions & Tools Conversations API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Conversations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Start a conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.gradient-labs.ai/conversations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new conversation and (optionally) assigns it to the Gradient Labs AI agent so it begins working the conversation autonomously."
+        },
+        {
+          "info": {
+            "name": "Read a conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gradient-labs.ai/conversations/:conversationID/read",
+            "params": [
+              {
+                "name": "conversationID",
+                "value": "",
+                "type": "path",
+                "description": "Your unique identifier for the conversation."
+              },
+              {
+                "name": "support_platform",
+                "value": "",
+                "type": "query",
+                "description": "Identifies the support platform (e.g. intercom) if the conversation was initiated through one."
+              }
+            ]
+          },
+          "docs": "Returns the current state of a conversation."
+        },
+        {
+          "info": {
+            "name": "Finish a conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.gradient-labs.ai/conversations/:conversationID/finish",
+            "params": [
+              {
+                "name": "conversationID",
+                "value": "",
+                "type": "path",
+                "description": "Your unique identifier for the conversation."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Marks a conversation as finished."
+        },
+        {
+          "info": {
+            "name": "Cancel a conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.gradient-labs.ai/conversations/:conversationID/cancel",
+            "params": [
+              {
+                "name": "conversationID",
+                "value": "",
+                "type": "path",
+                "description": "Your unique identifier for the conversation."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Cancels a conversation, stopping the AI agent from working it."
+        },
+        {
+          "info": {
+            "name": "Resume a conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.gradient-labs.ai/conversations/:conversationID/resume",
+            "params": [
+              {
+                "name": "conversationID",
+                "value": "",
+                "type": "path",
+                "description": "Your unique identifier for the conversation."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Resumes a previously finished or cancelled conversation."
+        },
+        {
+          "info": {
+            "name": "Rate a conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.gradient-labs.ai/conversations/:conversationID/rate",
+            "params": [
+              {
+                "name": "conversationID",
+                "value": "",
+                "type": "path",
+                "description": "Your unique identifier for the conversation."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Records a customer satisfaction rating (e.g. CSAT survey) for a conversation."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

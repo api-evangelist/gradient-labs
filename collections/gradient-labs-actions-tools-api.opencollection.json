@@ -1,0 +1,62 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gradient Labs Actions & Tools API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Actions & Tools",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a tool",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.gradient-labs.ai/tools",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Defines a business tool the AI agent can call. Requires a Management API key."
+        },
+        {
+          "info": {
+            "name": "Execute a tool",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.gradient-labs.ai/tools/:id/execute",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The tool identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Executes a defined tool with the supplied arguments and returns its JSON-encoded result. Requires a Management API key."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

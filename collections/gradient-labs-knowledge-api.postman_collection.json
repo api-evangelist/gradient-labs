@@ -1,0 +1,191 @@
+{
+  "item": [
+    {
+      "id": "39be4a7a-2daa-494d-a47b-22bee141f22f",
+      "name": "Knowledge",
+      "description": {
+        "content": "Manage knowledge-base articles that ground the AI agent.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "606e6c0f-e1a5-49ee-9360-e3856b8a76b9",
+          "name": "Upsert a knowledge article",
+          "request": {
+            "name": "Upsert a knowledge article",
+            "description": {
+              "content": "Creates or updates a knowledge-base article that grounds the AI agent's answers.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "articles"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"author_id\": \"<string>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"body\": \"<string>\",\n  \"visibility\": \"<string>\",\n  \"topic_id\": \"<string>\",\n  \"status\": \"<string>\",\n  \"data\": {\n    \"key_0\": 7244,\n    \"key_1\": 6581,\n    \"key_2\": \"string\",\n    \"key_3\": \"string\"\n  },\n  \"created\": \"<dateTime>\",\n  \"last_edited\": \"<dateTime>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "420788a1-2207-4db7-8a62-f158286e7fb1",
+              "name": "Article upserted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "articles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"author_id\": \"<string>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"body\": \"<string>\",\n  \"visibility\": \"<string>\",\n  \"topic_id\": \"<string>\",\n  \"status\": \"<string>\",\n  \"data\": {\n    \"key_0\": 5328\n  },\n  \"created\": \"<dateTime>\",\n  \"last_edited\": \"<dateTime>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"body\": \"string\",\n  \"visibility\": \"string\",\n  \"topic_id\": \"string\",\n  \"status\": \"string\",\n  \"created\": \"1954-11-22T16:48:15.523Z\",\n  \"last_edited\": \"1957-10-12T21:15:48.586Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8ebd07ec-5535-4eee-813c-934e4ce3fb89",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "articles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"author_id\": \"<string>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"body\": \"<string>\",\n  \"visibility\": \"<string>\",\n  \"topic_id\": \"<string>\",\n  \"status\": \"<string>\",\n  \"data\": {\n    \"key_0\": 5328\n  },\n  \"created\": \"<dateTime>\",\n  \"last_edited\": \"<dateTime>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.gradient-labs.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "216e7712-d2fc-493c-81af-7cb6b951f9b8",
+    "name": "Gradient Labs Actions & Tools Knowledge API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "HTTP API for Gradient Labs' AI customer support agent (\"Otto\"). Use it to start and drive support conversations, add customer and human-agent messages, assign work to the AI agent, hand off to humans, run business tools/actions, and manage the knowledge base the agent reasons over.\n\nAll requests are authenticated with a Bearer API key in the `Authorization` header. Unless stated otherwise, endpoints are idempotent and requests can be safely retried.\n\nIMPORTANT (accuracy note): Gradient Labs' public API reference at https://api-docs.gradient-labs.ai/ is behind an access-code gate. The paths, verbs, and field names in this document were reconstructed from the vendor's official open-source Go SDK (github.com/gradientlabs-ai/gradientlabs-go) and corroborating SDKs. Request/response schemas are modeled and simplified; verify exact field-level shapes against the gated reference before relying on them in production. See review.yml (endpointsConfirmed vs endpointsModeled).\n\nContact Support:\n Name: Gradient Labs",
+      "type": "text/plain"
+    }
+  }
+}

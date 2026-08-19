@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gradient Labs Actions & Tools Messages API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Messages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Add a message to a conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.gradient-labs.ai/conversations/:conversationID/messages",
+            "params": [
+              {
+                "name": "conversationID",
+                "value": "",
+                "type": "path",
+                "description": "Your unique identifier for the conversation."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds an inbound message (from the customer or a human agent) to a conversation for the AI agent to process. The participant type cannot be the AI agent."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

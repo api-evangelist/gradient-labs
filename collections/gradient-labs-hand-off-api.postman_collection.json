@@ -1,0 +1,282 @@
+{
+  "item": [
+    {
+      "id": "9cda7b28-aefd-434e-9bb8-16ab0332c9dc",
+      "name": "Hand-off",
+      "description": {
+        "content": "Assign conversations between the AI agent and human participants.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c9d851ff-4c86-47fc-896c-c87842773739",
+          "name": "Assign a conversation",
+          "request": {
+            "name": "Assign a conversation",
+            "description": {
+              "content": "Assigns or reassigns a conversation to a participant. Set assignee_type to ai-agent to assign the conversation to the Gradient Labs AI agent.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "conversations",
+                ":conversationID",
+                "assignee"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "conversationID",
+                  "description": "(Required) Your unique identifier for the conversation."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assignee_type\": \"<string>\",\n  \"assignee_id\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"reason\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4cf114da-50d1-4711-85d8-4a4e2f0a15b1",
+              "name": "Conversation assigned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "conversations",
+                    ":conversationID",
+                    "assignee"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "conversationID",
+                      "description": "(Required) Your unique identifier for the conversation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assignee_type\": \"human-agent\",\n  \"assignee_id\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"customer_id\": \"string\",\n  \"channel\": \"voice\",\n  \"assignee_id\": \"string\",\n  \"assignee_type\": \"ai-agent\",\n  \"status\": \"string\",\n  \"created\": \"1959-07-17T19:31:47.673Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "af7f4a5e-b97b-4e07-9014-dd410bba82be",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "conversations",
+                    ":conversationID",
+                    "assignee"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "conversationID",
+                      "description": "(Required) Your unique identifier for the conversation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assignee_type\": \"human-agent\",\n  \"assignee_id\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e24a7331-3a29-4f37-932a-a4a914ef0f10",
+              "name": "Resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "conversations",
+                    ":conversationID",
+                    "assignee"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "conversationID",
+                      "description": "(Required) Your unique identifier for the conversation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assignee_type\": \"human-agent\",\n  \"assignee_id\": \"<string>\",\n  \"timestamp\": \"<dateTime>\",\n  \"reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.gradient-labs.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "a6d5d02c-517c-458e-8ae1-099dbe204581",
+    "name": "Gradient Labs Actions & Tools Hand-off API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "HTTP API for Gradient Labs' AI customer support agent (\"Otto\"). Use it to start and drive support conversations, add customer and human-agent messages, assign work to the AI agent, hand off to humans, run business tools/actions, and manage the knowledge base the agent reasons over.\n\nAll requests are authenticated with a Bearer API key in the `Authorization` header. Unless stated otherwise, endpoints are idempotent and requests can be safely retried.\n\nIMPORTANT (accuracy note): Gradient Labs' public API reference at https://api-docs.gradient-labs.ai/ is behind an access-code gate. The paths, verbs, and field names in this document were reconstructed from the vendor's official open-source Go SDK (github.com/gradientlabs-ai/gradientlabs-go) and corroborating SDKs. Request/response schemas are modeled and simplified; verify exact field-level shapes against the gated reference before relying on them in production. See review.yml (endpointsConfirmed vs endpointsModeled).\n\nContact Support:\n Name: Gradient Labs",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gradient Labs Actions & Tools Knowledge API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Knowledge",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Upsert a knowledge article",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.gradient-labs.ai/articles",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or updates a knowledge-base article that grounds the AI agent's answers."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,282 @@
+{
+  "item": [
+    {
+      "id": "4c62975d-515e-4371-98da-5d88b2a228f8",
+      "name": "Messages",
+      "description": {
+        "content": "Add inbound messages to a conversation.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e4716e2c-1037-4c7c-aa96-3393c0f3dc74",
+          "name": "Add a message to a conversation",
+          "request": {
+            "name": "Add a message to a conversation",
+            "description": {
+              "content": "Adds an inbound message (from the customer or a human agent) to a conversation for the AI agent to process. The participant type cannot be the AI agent.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "conversations",
+                ":conversationID",
+                "messages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "conversationID",
+                  "description": "(Required) Your unique identifier for the conversation."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"body\": \"<string>\",\n  \"participant_id\": \"<string>\",\n  \"participant_type\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"created\": \"<dateTime>\",\n  \"attachments\": [\n    {\n      \"id\": \"<string>\",\n      \"filename\": \"<string>\",\n      \"url\": \"<uri>\",\n      \"content_type\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"filename\": \"<string>\",\n      \"url\": \"<uri>\",\n      \"content_type\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2742a74b-6910-4a13-a7e2-c653cc1c81aa",
+              "name": "Message accepted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "conversations",
+                    ":conversationID",
+                    "messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "conversationID",
+                      "description": "(Required) Your unique identifier for the conversation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"body\": \"<string>\",\n  \"participant_id\": \"<string>\",\n  \"participant_type\": \"customer\",\n  \"subject\": \"<string>\",\n  \"created\": \"<dateTime>\",\n  \"attachments\": [\n    {\n      \"id\": \"string\",\n      \"filename\": \"string\",\n      \"url\": \"https://mSiPAWXIpTbnpEmNZhIXamlQxYtNG.cxab-l1UXlTUkW\",\n      \"content_type\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"filename\": \"string\",\n      \"url\": \"https://koRZqgNhXIs.vcbaCG0yruDXkxV6gl,+0esLhzRb+jvXXcTNWLvCr+EXEYG5W\",\n      \"content_type\": \"string\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"body\": \"string\",\n  \"subject\": \"string\",\n  \"participant_id\": \"string\",\n  \"participant_type\": \"customer\",\n  \"created\": \"2006-09-14T23:24:33.945Z\",\n  \"attachments\": [\n    {\n      \"id\": \"string\",\n      \"filename\": \"string\",\n      \"url\": \"http://nHFKpqQhZjdbRsfArVMbS.degOmxTrknQVETswnfepRHTqhdI,qPuD43c40WNOoNRqS90YupvVH6fDwzG3iLRrk\",\n      \"content_type\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"filename\": \"string\",\n      \"url\": \"https://oGsn.dgojoZwiS8k,aB3nWqY7sr\",\n      \"content_type\": \"string\"\n    }\n  ],\n  \"conversation_token\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c54ab9ab-626a-46bf-a482-6f5df4bcf0c3",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "conversations",
+                    ":conversationID",
+                    "messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "conversationID",
+                      "description": "(Required) Your unique identifier for the conversation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"body\": \"<string>\",\n  \"participant_id\": \"<string>\",\n  \"participant_type\": \"customer\",\n  \"subject\": \"<string>\",\n  \"created\": \"<dateTime>\",\n  \"attachments\": [\n    {\n      \"id\": \"string\",\n      \"filename\": \"string\",\n      \"url\": \"https://mSiPAWXIpTbnpEmNZhIXamlQxYtNG.cxab-l1UXlTUkW\",\n      \"content_type\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"filename\": \"string\",\n      \"url\": \"https://koRZqgNhXIs.vcbaCG0yruDXkxV6gl,+0esLhzRb+jvXXcTNWLvCr+EXEYG5W\",\n      \"content_type\": \"string\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "433c208c-2c8b-4709-b716-04540b680773",
+              "name": "Resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "conversations",
+                    ":conversationID",
+                    "messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "conversationID",
+                      "description": "(Required) Your unique identifier for the conversation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"body\": \"<string>\",\n  \"participant_id\": \"<string>\",\n  \"participant_type\": \"customer\",\n  \"subject\": \"<string>\",\n  \"created\": \"<dateTime>\",\n  \"attachments\": [\n    {\n      \"id\": \"string\",\n      \"filename\": \"string\",\n      \"url\": \"https://mSiPAWXIpTbnpEmNZhIXamlQxYtNG.cxab-l1UXlTUkW\",\n      \"content_type\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"filename\": \"string\",\n      \"url\": \"https://koRZqgNhXIs.vcbaCG0yruDXkxV6gl,+0esLhzRb+jvXXcTNWLvCr+EXEYG5W\",\n      \"content_type\": \"string\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.gradient-labs.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c7bc99fe-0a91-440d-bb16-fa9ce42000b6",
+    "name": "Gradient Labs Actions & Tools Messages API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "HTTP API for Gradient Labs' AI customer support agent (\"Otto\"). Use it to start and drive support conversations, add customer and human-agent messages, assign work to the AI agent, hand off to humans, run business tools/actions, and manage the knowledge base the agent reasons over.\n\nAll requests are authenticated with a Bearer API key in the `Authorization` header. Unless stated otherwise, endpoints are idempotent and requests can be safely retried.\n\nIMPORTANT (accuracy note): Gradient Labs' public API reference at https://api-docs.gradient-labs.ai/ is behind an access-code gate. The paths, verbs, and field names in this document were reconstructed from the vendor's official open-source Go SDK (github.com/gradientlabs-ai/gradientlabs-go) and corroborating SDKs. Request/response schemas are modeled and simplified; verify exact field-level shapes against the gated reference before relying on them in production. See review.yml (endpointsConfirmed vs endpointsModeled).\n\nContact Support:\n Name: Gradient Labs",
+      "type": "text/plain"
+    }
+  }
+}

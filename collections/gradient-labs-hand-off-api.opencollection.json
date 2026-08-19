@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gradient Labs Actions & Tools Hand-off API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Hand-off",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Assign a conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.gradient-labs.ai/conversations/:conversationID/assignee",
+            "params": [
+              {
+                "name": "conversationID",
+                "value": "",
+                "type": "path",
+                "description": "Your unique identifier for the conversation."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Assigns or reassigns a conversation to a participant. Set assignee_type to ai-agent to assign the conversation to the Gradient Labs AI agent."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
