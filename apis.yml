@@ -23,6 +23,13 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/gradient-labs.png
 tags:
+- Artificial Intelligence
+- Customer-Support
+- AI Agent
+- Conversations
+- Financial-Services
+- Regulated
+tags_raw:
 - AI
 - Customer Support
 - AI Agent
@@ -103,6 +110,8 @@ apis:
   humanURL: https://api-docs.gradient-labs.ai/
   baseURL: https://api.gradient-labs.ai
   tags:
+  - Message
+  tags_raw:
   - Messages
   properties:
   - type: OpenAPI
