@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Gradient Labs Actions & Tools Messages API
+  title: Gradient Labs Messages API
   version: '1.0'
   description: 'HTTP API for Gradient Labs'' AI customer support agent ("Otto"). Use it to start and drive support conversations, add customer and human-agent messages, assign work to the AI agent, hand off to humans, run business tools/actions, and manage the knowledge base the agent reasons over.
 
@@ -50,35 +50,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    NotFound:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    ConversationID:
-      name: conversationID
-      in: path
-      required: true
-      description: Your unique identifier for the conversation.
-      schema:
-        type: string
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
     Message:
       type: object
       properties:
@@ -100,18 +72,6 @@ components:
           items:
             $ref: '#/components/schemas/Attachment'
         conversation_token:
-          type: string
-    Attachment:
-      type: object
-      properties:
-        id:
-          type: string
-        filename:
-          type: string
-        url:
-          type: string
-          format: uri
-        content_type:
           type: string
     ParticipantType:
       type: string
@@ -149,6 +109,46 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Attachment'
+    Attachment:
+      type: object
+      properties:
+        id:
+          type: string
+        filename:
+          type: string
+        url:
+          type: string
+          format: uri
+        content_type:
+          type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    ConversationID:
+      name: conversationID
+      in: path
+      required: true
+      description: Your unique identifier for the conversation.
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

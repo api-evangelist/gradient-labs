@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Gradient Labs Actions & Tools Conversations API
+  title: Gradient Labs Conversations API
   version: '1.0'
   description: 'HTTP API for Gradient Labs'' AI customer support agent ("Otto"). Use it to start and drive support conversations, add customer and human-agent messages, assign work to the AI agent, hand off to humans, run business tools/actions, and manage the knowledge base the agent reasons over.
 
@@ -175,25 +175,40 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Conversation:
+    ParticipantType:
+      type: string
+      description: The type of participant in a conversation.
+      enum:
+      - ai-agent
+      - customer
+      - human-agent
+    RatingParams:
       type: object
+      required:
+      - type
+      - value
+      - max_value
+      - min_value
       properties:
-        id:
+        type:
           type: string
-        customer_id:
+          description: The type of survey sent to the customer (e.g. csat).
+        value:
+          type: integer
+          description: The rating score the customer gave.
+        max_value:
+          type: integer
+          description: Maximum value of the rating scale.
+        min_value:
+          type: integer
+          description: Minimum value of the rating scale.
+        comments:
           type: string
-        channel:
-          $ref: '#/components/schemas/Channel'
-        assignee_id:
-          type: string
-        assignee_type:
-          $ref: '#/components/schemas/ParticipantType'
-        status:
-          type: string
-          description: Current lifecycle status of the conversation.
-        created:
+          description: Optional free-text feedback from the customer.
+        timestamp:
           type: string
           format: date-time
+          description: When the rating was given; defaults to now.
     LifecycleParams:
       type: object
       description: Common parameters for finish, cancel, and resume operations.
@@ -205,13 +220,6 @@ components:
         reason:
           type: string
           description: Optional description of why the change is happening.
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
     Channel:
       type: string
       description: The channel a conversation is taking place on; determines how the AI agent formats its responses.
@@ -254,43 +262,35 @@ components:
         traffic_group_id:
           type: string
           description: Restricts the conversation to a specific group of procedures.
-    RatingParams:
+    Conversation:
       type: object
-      required:
-      - type
-      - value
-      - max_value
-      - min_value
       properties:
-        type:
+        id:
           type: string
-          description: The type of survey sent to the customer (e.g. csat).
-        value:
-          type: integer
-          description: The rating score the customer gave.
-        max_value:
-          type: integer
-          description: Maximum value of the rating scale.
-        min_value:
-          type: integer
-          description: Minimum value of the rating scale.
-        comments:
+        customer_id:
           type: string
-          description: Optional free-text feedback from the customer.
-        timestamp:
+        channel:
+          $ref: '#/components/schemas/Channel'
+        assignee_id:
+          type: string
+        assignee_type:
+          $ref: '#/components/schemas/ParticipantType'
+        status:
+          type: string
+          description: Current lifecycle status of the conversation.
+        created:
           type: string
           format: date-time
-          description: When the rating was given; defaults to now.
-    ParticipantType:
-      type: string
-      description: The type of participant in a conversation.
-      enum:
-      - ai-agent
-      - customer
-      - human-agent
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
   responses:
-    NotFound:
-      description: Resource not found.
+    TooManyRequests:
+      description: Rate limit exceeded.
       content:
         application/json:
           schema:
@@ -301,8 +301,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: Rate limit exceeded.
+    NotFound:
+      description: Resource not found.
       content:
         application/json:
           schema:

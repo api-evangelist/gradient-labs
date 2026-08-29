@@ -1,0 +1,128 @@
+openapi: 3.2.0
+info:
+  title: Gradient Labs API
+  version: '1.0'
+  description: 'HTTP API for Gradient Labs'' AI customer support agent ("Otto"). Use it to start and drive support conversations, add customer and human-agent messages, assign work to the AI agent, hand off to humans, run business tools/actions, and manage the knowledge base the agent reasons over.
+
+
+    All requests are authenticated with a Bearer API key in the `Authorization` header. Unless stated otherwise, endpoints are idempotent and requests can be safely retried.
+
+
+    IMPORTANT (accuracy note): Gradient Labs'' public API reference at https://api-docs.gradient-labs.ai/ is behind an access-code gate. The paths, verbs, and field names in this document were reconstructed from the vendor''s official open-source Go SDK (github.com/gradientlabs-ai/gradientlabs-go) and corroborating SDKs. Request/response schemas are modeled and simplified; verify exact field-level shapes against the gated reference before relying on them in production. See review.yml (endpointsConfirmed vs endpointsModeled).'
+  contact:
+    name: Gradient Labs
+    url: https://www.gradient-labs.ai
+  license:
+    name: Proprietary
+servers:
+- url: https://api.gradient-labs.ai
+  description: Gradient Labs production API
+security:
+- bearerAuth: []
+tags:
+- name: Gradient Labs API
+paths: {}
+webhooks:
+  agentMessage:
+    post:
+      summary: agent.message
+      description: Delivered when the AI agent produces an outbound message for the customer.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookEnvelope'
+      responses:
+        '200':
+          description: Acknowledged.
+      tags:
+      - Gradient Labs API
+  conversationHandOff:
+    post:
+      summary: conversation.hand_off
+      description: Delivered when the AI agent escalates a conversation to a human agent, including reason_code, reason, target, and note.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookEnvelope'
+      responses:
+        '200':
+          description: Acknowledged.
+      tags:
+      - Gradient Labs API
+  conversationFinished:
+    post:
+      summary: conversation.finished
+      description: Delivered when the AI agent concludes a conversation, including reason_code and classified intent.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookEnvelope'
+      responses:
+        '200':
+          description: Acknowledged.
+      tags:
+      - Gradient Labs API
+  actionExecute:
+    post:
+      summary: action.execute
+      description: Delivered when the AI agent needs your system to execute an action (tool), including the action name and params.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookEnvelope'
+      responses:
+        '200':
+          description: Acknowledged.
+      tags:
+      - Gradient Labs API
+  resourcePull:
+    post:
+      summary: resource.pull
+      description: Delivered when the AI agent wants to pull a resource of a given resource_type for the conversation.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookEnvelope'
+      responses:
+        '200':
+          description: Acknowledged.
+      tags:
+      - Gradient Labs API
+components:
+  schemas:
+    WebhookEnvelope:
+      type: object
+      description: Common envelope for all webhook events the AI agent delivers. Requests are signed; verify them with your webhook signing key. The sequence_number increments per conversation so you can establish a total order of events.
+      properties:
+        id:
+          type: string
+          description: Unique event identifier.
+        type:
+          type: string
+          description: The event type.
+          enum:
+          - agent.message
+          - conversation.hand_off
+          - conversation.finished
+          - action.execute
+          - resource.pull
+        sequence_number:
+          type: integer
+          description: Incrementing number establishing total event order.
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          additionalProperties: true
+          description: Event-specific payload. For agent.message includes conversation, body, total, sequence, intent, is_holding. For conversation.hand_off includes conversation, target, reason_code, reason, note, intent. For conversation.finished includes conversation, reason_code, intent. For action.execute includes action, params, conversation. For resource.pull includes resource_type, conversation.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Provide your Gradient Labs API key as a Bearer token in the Authorization header. Some administrative endpoints (tools) require a Management API key.

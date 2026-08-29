@@ -134,6 +134,16 @@ apis:
     url: collections/gradient-labs.postman_collection.json
   - type: OpenCollection
     url: collections/gradient-labs.opencollection.json
+- aid: gradient-labs:gradient-labs-gradient-labs-api-api
+  name: Gradient Labs Gradient Labs API
+  description: The Gradient Labs API API from Gradient Labs — 0 operation(s) for gradient labs api.
+  humanURL: https://api-docs.gradient-labs.ai/
+  baseURL: https://api.gradient-labs.ai
+  tags:
+  - Gradient Labs API
+  properties:
+  - type: OpenAPI
+    url: openapi/gradient-labs-gradient-labs-api-api-openapi.yml
 common:
 - type: AgenticAccess
   url: agentic-access/gradient-labs-agentic-access.yml

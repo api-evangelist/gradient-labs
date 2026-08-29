@@ -1,15 +1,12 @@
 {
   "provider": "gradient-labs",
   "sources": [
-    "gradient-labs-actions-tools-api-openapi.yml",
-    "gradient-labs-conversations-api-openapi.yml",
-    "gradient-labs-hand-off-api-openapi.yml",
-    "gradient-labs-knowledge-api-openapi.yml",
-    "gradient-labs-messages-api-openapi.yml"
+    "_original/gradient-labs-openapi.yml"
   ],
   "outputs": [
     "gradient-labs-actions-tools-api-openapi.yml",
     "gradient-labs-conversations-api-openapi.yml",
+    "gradient-labs-gradient-labs-api-api-openapi.yml",
     "gradient-labs-hand-off-api-openapi.yml",
     "gradient-labs-knowledge-api-openapi.yml",
     "gradient-labs-messages-api-openapi.yml"
@@ -17,6 +14,21 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "gradient-labs-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "gradient-labs-openapi.yml: tagged webhooks POST agentMessage -> Gradient Labs API",
+    "gradient-labs-openapi.yml: tagged webhooks POST conversationHandOff -> Gradient Labs API",
+    "gradient-labs-openapi.yml: tagged webhooks POST conversationFinished -> Gradient Labs API",
+    "gradient-labs-openapi.yml: tagged webhooks POST actionExecute -> Gradient Labs API",
+    "gradient-labs-openapi.yml: tagged webhooks POST resourcePull -> Gradient Labs API",
+    "gradient-labs-openapi.yml: declared missing tag: Gradient Labs API"
+  ],
+  "skipped": [
+    "gradient-labs-actions-tools-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gradient-labs-conversations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gradient-labs-hand-off-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gradient-labs-knowledge-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gradient-labs-messages-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
