@@ -1,0 +1,32 @@
+# Front Door AI Index — gradient-labs — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: gradient-labs
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.gradient-labs.ai
+  final_host: gradient-labs.ai
+  ownership: own
+  owner: gradient-labs
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 279
+  host_score: 279
+  density: 60.89
+  words: 4582
+  tiers:
+    agentic: 117
+    core: 151
+    model: 11
+  ambiguous: 172
+  top_terms:
+    agent: 156
+    AI: 143
+    AI agent: 117
+    automation: 16
+    LLMs: 8
+    Anthropic: 5
+    ChatGPT: 3
+    Claude: 3

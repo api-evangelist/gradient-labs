@@ -22,11 +22,13 @@
     "gradient-labs-openapi.yml: tagged webhooks POST conversationFinished -> Gradient Labs API",
     "gradient-labs-openapi.yml: tagged webhooks POST actionExecute -> Gradient Labs API",
     "gradient-labs-openapi.yml: tagged webhooks POST resourcePull -> Gradient Labs API",
-    "gradient-labs-openapi.yml: declared missing tag: Gradient Labs API"
+    "gradient-labs-openapi.yml: declared missing tag: Gradient Labs API",
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "gradient-labs-actions-tools-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "gradient-labs-conversations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gradient-labs-gradient-labs-api-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "gradient-labs-hand-off-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "gradient-labs-knowledge-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "gradient-labs-messages-api-openapi.yml: previously refined output, superseded by openapi/_original/"

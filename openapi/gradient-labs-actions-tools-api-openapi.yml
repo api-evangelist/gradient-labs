@@ -2,13 +2,7 @@ openapi: 3.2.0
 info:
   title: Gradient Labs Actions & Tools API
   version: '1.0'
-  description: 'HTTP API for Gradient Labs'' AI customer support agent ("Otto"). Use it to start and drive support conversations, add customer and human-agent messages, assign work to the AI agent, hand off to humans, run business tools/actions, and manage the knowledge base the agent reasons over.
-
-
-    All requests are authenticated with a Bearer API key in the `Authorization` header. Unless stated otherwise, endpoints are idempotent and requests can be safely retried.
-
-
-    IMPORTANT (accuracy note): Gradient Labs'' public API reference at https://api-docs.gradient-labs.ai/ is behind an access-code gate. The paths, verbs, and field names in this document were reconstructed from the vendor''s official open-source Go SDK (github.com/gradientlabs-ai/gradientlabs-go) and corroborating SDKs. Request/response schemas are modeled and simplified; verify exact field-level shapes against the gated reference before relying on them in production. See review.yml (endpointsConfirmed vs endpointsModeled).'
+  description: HTTP API for Gradient Labs' AI customer support agent ("Otto").
   contact:
     name: Gradient Labs
     url: https://www.gradient-labs.ai
@@ -78,29 +72,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    ToolParameter:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        type:
-          type: string
-        required:
-          type: boolean
-    ExecutionParams:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          description: The tool identifier.
-        arguments:
-          type: array
-          items:
-            $ref: '#/components/schemas/Argument'
     ExecuteResult:
       type: object
       properties:
@@ -112,6 +83,17 @@ components:
         error:
           type: string
           description: Error message if execution failed.
+    ToolParameter:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        required:
+          type: boolean
     Tool:
       type: object
       description: A business tool the AI agent can call. Fields are modeled; verify the exact shape against the gated API reference.
@@ -136,6 +118,18 @@ components:
           type: string
         value:
           type: string
+    ExecutionParams:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          description: The tool identifier.
+        arguments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Argument'
     Error:
       type: object
       properties:
@@ -144,14 +138,14 @@ components:
         message:
           type: string
   responses:
-    Unauthorized:
-      description: Missing or invalid API key.
+    NotFound:
+      description: Resource not found.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:

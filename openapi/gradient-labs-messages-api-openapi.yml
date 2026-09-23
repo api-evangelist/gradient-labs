@@ -2,13 +2,7 @@ openapi: 3.2.0
 info:
   title: Gradient Labs Messages API
   version: '1.0'
-  description: 'HTTP API for Gradient Labs'' AI customer support agent ("Otto"). Use it to start and drive support conversations, add customer and human-agent messages, assign work to the AI agent, hand off to humans, run business tools/actions, and manage the knowledge base the agent reasons over.
-
-
-    All requests are authenticated with a Bearer API key in the `Authorization` header. Unless stated otherwise, endpoints are idempotent and requests can be safely retried.
-
-
-    IMPORTANT (accuracy note): Gradient Labs'' public API reference at https://api-docs.gradient-labs.ai/ is behind an access-code gate. The paths, verbs, and field names in this document were reconstructed from the vendor''s official open-source Go SDK (github.com/gradientlabs-ai/gradientlabs-go) and corroborating SDKs. Request/response schemas are modeled and simplified; verify exact field-level shapes against the gated reference before relying on them in production. See review.yml (endpointsConfirmed vs endpointsModeled).'
+  description: HTTP API for Gradient Labs' AI customer support agent ("Otto").
   contact:
     name: Gradient Labs
     url: https://www.gradient-labs.ai
@@ -50,28 +44,39 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    ConversationID:
+      name: conversationID
+      in: path
+      required: true
+      description: Your unique identifier for the conversation.
+      schema:
+        type: string
   schemas:
-    Message:
+    Attachment:
       type: object
       properties:
         id:
           type: string
-        body:
+        filename:
           type: string
-        subject:
+        url:
           type: string
-        participant_id:
-          type: string
-        participant_type:
-          $ref: '#/components/schemas/ParticipantType'
-        created:
-          type: string
-          format: date-time
-        attachments:
-          type: array
-          items:
-            $ref: '#/components/schemas/Attachment'
-        conversation_token:
+          format: uri
+        content_type:
           type: string
     ParticipantType:
       type: string
@@ -109,17 +114,27 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Attachment'
-    Attachment:
+    Message:
       type: object
       properties:
         id:
           type: string
-        filename:
+        body:
           type: string
-        url:
+        subject:
           type: string
-          format: uri
-        content_type:
+        participant_id:
+          type: string
+        participant_type:
+          $ref: '#/components/schemas/ParticipantType'
+        created:
+          type: string
+          format: date-time
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+        conversation_token:
           type: string
     Error:
       type: object
@@ -128,27 +143,6 @@ components:
           type: string
         message:
           type: string
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    ConversationID:
-      name: conversationID
-      in: path
-      required: true
-      description: Your unique identifier for the conversation.
-      schema:
-        type: string
   securitySchemes:
     bearerAuth:
       type: http
