@@ -44,28 +44,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    NotFound:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    ConversationID:
-      name: conversationID
-      in: path
-      required: true
-      description: Your unique identifier for the conversation.
-      schema:
-        type: string
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
     Attachment:
       type: object
       properties:
@@ -78,13 +64,28 @@ components:
           format: uri
         content_type:
           type: string
-    ParticipantType:
-      type: string
-      description: The type of participant in a conversation.
-      enum:
-      - ai-agent
-      - customer
-      - human-agent
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+        body:
+          type: string
+        subject:
+          type: string
+        participant_id:
+          type: string
+        participant_type:
+          $ref: '#/components/schemas/ParticipantType'
+        created:
+          type: string
+          format: date-time
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+        conversation_token:
+          type: string
     AddMessageParams:
       type: object
       required:
@@ -114,35 +115,34 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Attachment'
-    Message:
-      type: object
-      properties:
-        id:
-          type: string
-        body:
-          type: string
-        subject:
-          type: string
-        participant_id:
-          type: string
-        participant_type:
-          $ref: '#/components/schemas/ParticipantType'
-        created:
-          type: string
-          format: date-time
-        attachments:
-          type: array
-          items:
-            $ref: '#/components/schemas/Attachment'
-        conversation_token:
-          type: string
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
+    ParticipantType:
+      type: string
+      description: The type of participant in a conversation.
+      enum:
+      - ai-agent
+      - customer
+      - human-agent
+  parameters:
+    ConversationID:
+      name: conversationID
+      in: path
+      required: true
+      description: Your unique identifier for the conversation.
+      schema:
+        type: string
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

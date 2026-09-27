@@ -72,17 +72,13 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    ExecuteResult:
+    Error:
       type: object
       properties:
-        id:
-          type: string
-          description: The tool identifier.
-        result:
-          description: The JSON-encoded result of the tool execution, if it succeeded.
         error:
           type: string
-          description: Error message if execution failed.
+        message:
+          type: string
     ToolParameter:
       type: object
       properties:
@@ -94,6 +90,18 @@ components:
           type: string
         required:
           type: boolean
+    ExecutionParams:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          description: The tool identifier.
+        arguments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Argument'
     Tool:
       type: object
       description: A business tool the AI agent can call. Fields are modeled; verify the exact shape against the gated API reference.
@@ -118,25 +126,17 @@ components:
           type: string
         value:
           type: string
-    ExecutionParams:
+    ExecuteResult:
       type: object
-      required:
-      - id
       properties:
         id:
           type: string
           description: The tool identifier.
-        arguments:
-          type: array
-          items:
-            $ref: '#/components/schemas/Argument'
-    Error:
-      type: object
-      properties:
+        result:
+          description: The JSON-encoded result of the tool execution, if it succeeded.
         error:
           type: string
-        message:
-          type: string
+          description: Error message if execution failed.
   responses:
     NotFound:
       description: Resource not found.

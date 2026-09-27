@@ -36,10 +36,10 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/gradient-labs.png
 tags:
 - Artificial Intelligence
-- Customer-Support
+- Customer Support
 - AI Agents
 - Conversations
-- Financial-Services
+- Financial Services
 - Regulated
 tags_raw:
 - AI
@@ -48,6 +48,8 @@ tags_raw:
 - Conversations
 - Financial Services
 - Regulated
+- Customer-Support
+- Financial-Services
 created: '2026-07-01'
 modified: '2026-07-01'
 specificationVersion: '0.23'

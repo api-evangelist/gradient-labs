@@ -169,33 +169,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Channel:
-      type: string
-      description: The channel a conversation is taking place on; determines how the AI agent formats its responses.
-      enum:
-      - email
-      - chat
-      - sms
-      - voice
-    Conversation:
-      type: object
-      properties:
-        id:
-          type: string
-        customer_id:
-          type: string
-        channel:
-          $ref: '#/components/schemas/Channel'
-        assignee_id:
-          type: string
-        assignee_type:
-          $ref: '#/components/schemas/ParticipantType'
-        status:
-          type: string
-          description: Current lifecycle status of the conversation.
-        created:
-          type: string
-          format: date-time
     RatingParams:
       type: object
       required:
@@ -223,13 +196,51 @@ components:
           type: string
           format: date-time
           description: When the rating was given; defaults to now.
-    ParticipantType:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+    Conversation:
+      type: object
+      properties:
+        id:
+          type: string
+        customer_id:
+          type: string
+        channel:
+          $ref: '#/components/schemas/Channel'
+        assignee_id:
+          type: string
+        assignee_type:
+          $ref: '#/components/schemas/ParticipantType'
+        status:
+          type: string
+          description: Current lifecycle status of the conversation.
+        created:
+          type: string
+          format: date-time
+    Channel:
       type: string
-      description: The type of participant in a conversation.
+      description: The channel a conversation is taking place on; determines how the AI agent formats its responses.
       enum:
-      - ai-agent
-      - customer
-      - human-agent
+      - email
+      - chat
+      - sms
+      - voice
+    LifecycleParams:
+      type: object
+      description: Common parameters for finish, cancel, and resume operations.
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: When the lifecycle change occurred; defaults to now.
+        reason:
+          type: string
+          description: Optional description of why the change is happening.
     StartConversationParams:
       type: object
       required:
@@ -264,31 +275,22 @@ components:
         traffic_group_id:
           type: string
           description: Restricts the conversation to a specific group of procedures.
-    LifecycleParams:
-      type: object
-      description: Common parameters for finish, cancel, and resume operations.
-      properties:
-        timestamp:
-          type: string
-          format: date-time
-          description: When the lifecycle change occurred; defaults to now.
-        reason:
-          type: string
-          description: Optional description of why the change is happening.
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
+    ParticipantType:
+      type: string
+      description: The type of participant in a conversation.
+      enum:
+      - ai-agent
+      - customer
+      - human-agent
+  parameters:
+    ConversationID:
+      name: conversationID
+      in: path
+      required: true
+      description: Your unique identifier for the conversation.
+      schema:
+        type: string
   responses:
-    TooManyRequests:
-      description: Rate limit exceeded.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: Resource not found.
       content:
@@ -301,14 +303,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    ConversationID:
-      name: conversationID
-      in: path
-      required: true
-      description: Your unique identifier for the conversation.
-      schema:
-        type: string
+    TooManyRequests:
+      description: Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
