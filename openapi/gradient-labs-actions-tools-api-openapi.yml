@@ -72,36 +72,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-    ToolParameter:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        type:
-          type: string
-        required:
-          type: boolean
-    ExecutionParams:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          description: The tool identifier.
-        arguments:
-          type: array
-          items:
-            $ref: '#/components/schemas/Argument'
     Tool:
       type: object
       description: A business tool the AI agent can call. Fields are modeled; verify the exact shape against the gated API reference.
@@ -119,13 +89,6 @@ components:
         execution:
           type: string
           description: How the tool is executed - via webhook (action.execute delivered to your endpoint) or via a configured HTTP request.
-    Argument:
-      type: object
-      properties:
-        name:
-          type: string
-        value:
-          type: string
     ExecuteResult:
       type: object
       properties:
@@ -137,6 +100,43 @@ components:
         error:
           type: string
           description: Error message if execution failed.
+    ToolParameter:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        required:
+          type: boolean
+    Argument:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    ExecutionParams:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          description: The tool identifier.
+        arguments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Argument'
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
   responses:
     NotFound:
       description: Resource not found.

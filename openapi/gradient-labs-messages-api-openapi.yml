@@ -45,47 +45,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-    Attachment:
-      type: object
-      properties:
-        id:
-          type: string
-        filename:
-          type: string
-        url:
-          type: string
-          format: uri
-        content_type:
-          type: string
-    Message:
-      type: object
-      properties:
-        id:
-          type: string
-        body:
-          type: string
-        subject:
-          type: string
-        participant_id:
-          type: string
-        participant_type:
-          $ref: '#/components/schemas/ParticipantType'
-        created:
-          type: string
-          format: date-time
-        attachments:
-          type: array
-          items:
-            $ref: '#/components/schemas/Attachment'
-        conversation_token:
-          type: string
     AddMessageParams:
       type: object
       required:
@@ -115,6 +74,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Attachment'
+    Attachment:
+      type: object
+      properties:
+        id:
+          type: string
+        filename:
+          type: string
+        url:
+          type: string
+          format: uri
+        content_type:
+          type: string
     ParticipantType:
       type: string
       description: The type of participant in a conversation.
@@ -122,6 +93,35 @@ components:
       - ai-agent
       - customer
       - human-agent
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+        body:
+          type: string
+        subject:
+          type: string
+        participant_id:
+          type: string
+        participant_type:
+          $ref: '#/components/schemas/ParticipantType'
+        created:
+          type: string
+          format: date-time
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+        conversation_token:
+          type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
   parameters:
     ConversationID:
       name: conversationID

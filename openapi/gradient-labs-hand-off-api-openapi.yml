@@ -45,6 +45,21 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    Channel:
+      type: string
+      description: The channel a conversation is taking place on; determines how the AI agent formats its responses.
+      enum:
+      - email
+      - chat
+      - sms
+      - voice
+    ParticipantType:
+      type: string
+      description: The type of participant in a conversation.
+      enum:
+      - ai-agent
+      - customer
+      - human-agent
     AssignmentParams:
       type: object
       required:
@@ -62,13 +77,6 @@ components:
         reason:
           type: string
           description: Optional description of why this assignment is happening.
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
     Conversation:
       type: object
       properties:
@@ -88,21 +96,13 @@ components:
         created:
           type: string
           format: date-time
-    Channel:
-      type: string
-      description: The channel a conversation is taking place on; determines how the AI agent formats its responses.
-      enum:
-      - email
-      - chat
-      - sms
-      - voice
-    ParticipantType:
-      type: string
-      description: The type of participant in a conversation.
-      enum:
-      - ai-agent
-      - customer
-      - human-agent
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
   parameters:
     ConversationID:
       name: conversationID
