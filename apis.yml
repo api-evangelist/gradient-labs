@@ -34,6 +34,10 @@ accessModel:
   generated: '2026-07-22'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/gradient-labs.png
+x-docs-platform: mintlify
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-10-03
+x-docs-hosting: vercel
 tags:
 - Artificial Intelligence
 - Customer Support
@@ -147,6 +151,9 @@ apis:
   - type: OpenAPI
     url: openapi/gradient-labs-gradient-labs-api-api-openapi.yml
 common:
+- type: CapabilityMap
+  url: capabilities/gradient-labs-capability-edges.yml
+  name: Gradient Labs Business Capability Map
 - type: AgenticAccess
   url: agentic-access/gradient-labs-agentic-access.yml
 - type: DomainSecurity
