@@ -168,15 +168,52 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Channel:
+    Conversation:
+      type: object
+      properties:
+        id:
+          type: string
+        customer_id:
+          type: string
+        channel:
+          $ref: '#/components/schemas/Channel'
+        assignee_id:
+          type: string
+        assignee_type:
+          $ref: '#/components/schemas/ParticipantType'
+        status:
+          type: string
+          description: Current lifecycle status of the conversation.
+        created:
+          type: string
+          format: date-time
+    ParticipantType:
       type: string
-      description: The channel a conversation is taking place on; determines how the AI agent formats its responses.
+      description: The type of participant in a conversation.
       enum:
-      - email
-      - chat
-      - sms
-      - voice
+      - ai-agent
+      - customer
+      - human-agent
     LifecycleParams:
       type: object
       description: Common parameters for finish, cancel, and resume operations.
@@ -188,6 +225,14 @@ components:
         reason:
           type: string
           description: Optional description of why the change is happening.
+    Channel:
+      type: string
+      description: The channel a conversation is taking place on; determines how the AI agent formats its responses.
+      enum:
+      - email
+      - chat
+      - sms
+      - voice
     RatingParams:
       type: object
       required:
@@ -249,32 +294,6 @@ components:
         traffic_group_id:
           type: string
           description: Restricts the conversation to a specific group of procedures.
-    ParticipantType:
-      type: string
-      description: The type of participant in a conversation.
-      enum:
-      - ai-agent
-      - customer
-      - human-agent
-    Conversation:
-      type: object
-      properties:
-        id:
-          type: string
-        customer_id:
-          type: string
-        channel:
-          $ref: '#/components/schemas/Channel'
-        assignee_id:
-          type: string
-        assignee_type:
-          $ref: '#/components/schemas/ParticipantType'
-        status:
-          type: string
-          description: Current lifecycle status of the conversation.
-        created:
-          type: string
-          format: date-time
     Error:
       type: object
       properties:
@@ -290,25 +309,6 @@ components:
       description: Your unique identifier for the conversation.
       schema:
         type: string
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: Rate limit exceeded.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

@@ -44,15 +44,39 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Channel:
-      type: string
-      description: The channel a conversation is taking place on; determines how the AI agent formats its responses.
-      enum:
-      - email
-      - chat
-      - sms
-      - voice
+    Conversation:
+      type: object
+      properties:
+        id:
+          type: string
+        customer_id:
+          type: string
+        channel:
+          $ref: '#/components/schemas/Channel'
+        assignee_id:
+          type: string
+        assignee_type:
+          $ref: '#/components/schemas/ParticipantType'
+        status:
+          type: string
+          description: Current lifecycle status of the conversation.
+        created:
+          type: string
+          format: date-time
     ParticipantType:
       type: string
       description: The type of participant in a conversation.
@@ -77,25 +101,14 @@ components:
         reason:
           type: string
           description: Optional description of why this assignment is happening.
-    Conversation:
-      type: object
-      properties:
-        id:
-          type: string
-        customer_id:
-          type: string
-        channel:
-          $ref: '#/components/schemas/Channel'
-        assignee_id:
-          type: string
-        assignee_type:
-          $ref: '#/components/schemas/ParticipantType'
-        status:
-          type: string
-          description: Current lifecycle status of the conversation.
-        created:
-          type: string
-          format: date-time
+    Channel:
+      type: string
+      description: The channel a conversation is taking place on; determines how the AI agent formats its responses.
+      enum:
+      - email
+      - chat
+      - sms
+      - voice
     Error:
       type: object
       properties:
@@ -111,19 +124,6 @@ components:
       description: Your unique identifier for the conversation.
       schema:
         type: string
-  responses:
-    NotFound:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

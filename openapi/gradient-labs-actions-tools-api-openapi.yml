@@ -72,45 +72,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Tool:
-      type: object
-      description: A business tool the AI agent can call. Fields are modeled; verify the exact shape against the gated API reference.
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        parameters:
-          type: array
-          items:
-            $ref: '#/components/schemas/ToolParameter'
-        execution:
-          type: string
-          description: How the tool is executed - via webhook (action.execute delivered to your endpoint) or via a configured HTTP request.
-    ExecuteResult:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The tool identifier.
-        result:
-          description: The JSON-encoded result of the tool execution, if it succeeded.
-        error:
-          type: string
-          description: Error message if execution failed.
-    ToolParameter:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        type:
-          type: string
-        required:
-          type: boolean
     Argument:
       type: object
       properties:
@@ -130,6 +91,45 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Argument'
+    Tool:
+      type: object
+      description: A business tool the AI agent can call. Fields are modeled; verify the exact shape against the gated API reference.
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ToolParameter'
+        execution:
+          type: string
+          description: How the tool is executed - via webhook (action.execute delivered to your endpoint) or via a configured HTTP request.
+    ToolParameter:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        required:
+          type: boolean
+    ExecuteResult:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The tool identifier.
+        result:
+          description: The JSON-encoded result of the tool execution, if it succeeded.
+        error:
+          type: string
+          description: Error message if execution failed.
     Error:
       type: object
       properties:
