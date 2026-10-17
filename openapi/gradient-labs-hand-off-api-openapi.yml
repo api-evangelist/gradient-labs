@@ -44,20 +44,38 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    NotFound:
-      description: Resource not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+    AssignmentParams:
+      type: object
+      required:
+      - assignee_type
+      properties:
+        assignee_id:
+          type: string
+          description: The specific user the conversation is being assigned to.
+        assignee_type:
+          $ref: '#/components/schemas/ParticipantType'
+        timestamp:
+          type: string
+          format: date-time
+          description: When the assignment happened; defaults to now.
+        reason:
+          type: string
+          description: Optional description of why this assignment is happening.
+    ParticipantType:
+      type: string
+      description: The type of participant in a conversation.
+      enum:
+      - ai-agent
+      - customer
+      - human-agent
     Conversation:
       type: object
       properties:
@@ -77,30 +95,6 @@ components:
         created:
           type: string
           format: date-time
-    ParticipantType:
-      type: string
-      description: The type of participant in a conversation.
-      enum:
-      - ai-agent
-      - customer
-      - human-agent
-    AssignmentParams:
-      type: object
-      required:
-      - assignee_type
-      properties:
-        assignee_id:
-          type: string
-          description: The specific user the conversation is being assigned to.
-        assignee_type:
-          $ref: '#/components/schemas/ParticipantType'
-        timestamp:
-          type: string
-          format: date-time
-          description: When the assignment happened; defaults to now.
-        reason:
-          type: string
-          description: Optional description of why this assignment is happening.
     Channel:
       type: string
       description: The channel a conversation is taking place on; determines how the AI agent formats its responses.
@@ -109,13 +103,6 @@ components:
       - chat
       - sms
       - voice
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
   parameters:
     ConversationID:
       name: conversationID
@@ -124,6 +111,19 @@ components:
       description: Your unique identifier for the conversation.
       schema:
         type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
