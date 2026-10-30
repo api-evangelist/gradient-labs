@@ -1,4 +1,4 @@
-# Gradient Labs (gradient-labs)
+# Gradient Labs
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,155 +66,125 @@
 
 Gradient Labs builds "Otto", an AI customer support agent that autonomously handles complex, end-to-end support conversations for regulated and financial services businesses. The API lets you start and drive conversations, stream customer messages, hand off to human agents, execute business actions/tools, and manage the knowledge base the agent reasons over, with signed webhooks delivering the agent's outbound messages and events.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/gradient-labs/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/gradient-labs/refs/heads/main/apis.yml)
+**Areas:** Artificial Intelligence · Customer Service · AI Agents · Conversations · Financial Services · Regulated
 
-> Accuracy note: Gradient Labs' public API reference at https://api-docs.gradient-labs.ai/ is behind an access code. The endpoints, base URL (`https://api.gradient-labs.ai`), Bearer auth, and webhook event types cataloged here were reconstructed from the vendor's official open-source SDKs (primarily [gradientlabs-go](https://github.com/gradientlabs-ai/gradientlabs-go)). Request/response schemas are modeled and should be verified against the gated reference. See `review.yml` for what is confirmed vs. modeled.
+## Gradient Labs on APIs.io
 
-## Tags
+Everything profiled for Gradient Labs is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/gradient-labs/](https://apis.io/providers/gradient-labs/)** — or go straight to one of the APIs or properties below.
 
-- AI
-- Customer Support
-- AI Agent
-- Conversations
-- Financial Services
-- Regulated
+### APIs (6)
 
-## Timestamps
+- [Gradient Labs Actions & Tools API](https://apis.io/apis/gradient-labs/gradient-labs-actions-tools-api/) — Define and execute business tools the AI agent can call.
+- [Gradient Labs Conversations API](https://apis.io/apis/gradient-labs/gradient-labs-conversations-api/) — Start, read, and manage the lifecycle of AI-agent conversations.
+- [Gradient Labs Hand-off API](https://apis.io/apis/gradient-labs/gradient-labs-hand-off-api/) — Assign conversations between the AI agent and human participants.
+- [Gradient Labs Knowledge API](https://apis.io/apis/gradient-labs/gradient-labs-knowledge-api/) — Manage knowledge-base articles that ground the AI agent.
+- [Gradient Labs Messages API](https://apis.io/apis/gradient-labs/gradient-labs-messages-api/) — Add inbound messages to a conversation.
+- [Gradient Labs Gradient Labs API](https://apis.io/apis/gradient-labs/gradient-labs-gradient-labs-api-api/) — The Gradient Labs API API from Gradient Labs — 0 operation(s) for gradient labs api.
 
-- **Created:** 2026-07-01
-- **Modified:** 2026-07-01
+### Published properties
 
-## APIs
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-### Gradient Labs Conversations API
+#### Agentic access (1)
 
-Start a conversation, assign it to the Gradient Labs AI agent, read its current state, and manage its lifecycle (finish, cancel, resume). The AI agent autonomously works the conversation and emits outbound messages and events via webhooks.
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- **Human URL:** [https://api-docs.gradient-labs.ai/](https://api-docs.gradient-labs.ai/)
-- **Base URL:** `https://api.gradient-labs.ai`
+- [Gradient Labs Agentic Access](https://apis.io/agentic-access/gradient-labs/gradient-labs-agentic-access/)
 
-#### Tags
+#### Collections (6)
 
-- Conversations
-- AI Agent
-- Support
+Postman and Open Collection request collections.
 
-#### Properties
+- [Gradient Labs API](https://apis.io/collections/gradient-labs/open-gradient-labs/)
+- [Gradient Labs Actions & Tools API](https://apis.io/collections/gradient-labs/open-gradient-labs-actions-tools-api/)
+- [Gradient Labs Actions & Tools Conversations API](https://apis.io/collections/gradient-labs/open-gradient-labs-conversations-api/)
+- [Gradient Labs Actions & Tools Hand-off API](https://apis.io/collections/gradient-labs/open-gradient-labs-hand-off-api/)
+- [Gradient Labs Actions & Tools Knowledge API](https://apis.io/collections/gradient-labs/open-gradient-labs-knowledge-api/)
+- [Gradient Labs Actions & Tools Messages API](https://apis.io/collections/gradient-labs/open-gradient-labs-messages-api/)
 
-- [Documentation](https://api-docs.gradient-labs.ai/)
-- [OpenAPI](openapi/gradient-labs-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/gradient-labs.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/gradient-labs.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Security (2)
 
-### Gradient Labs Messages API
+Authentication, trust centre, and vulnerability disclosure.
 
-Add inbound customer and human-agent messages (with optional email subject and attachments) to an existing conversation for the AI agent to process.
+- [Gradient Labs Authentication](https://apis.io/security/gradient-labs/gradient-labs-authentication/)
+- [Gradient Labs Domain Security](https://apis.io/security/gradient-labs/gradient-labs-domain-security/)
 
-- **Human URL:** [https://api-docs.gradient-labs.ai/](https://api-docs.gradient-labs.ai/)
-- **Base URL:** `https://api.gradient-labs.ai`
+#### Plans and pricing (1)
 
-#### Tags
+Published plans, tiers and prices.
 
-- Messages
-- Conversations
-- Attachments
+- [Gradient Labs Plans Pricing](https://apis.io/plans/gradient-labs/gradient-labs-plans-pricing/)
 
-#### Properties
+#### Rate limits (1)
 
-- [Documentation](https://api-docs.gradient-labs.ai/)
-- [OpenAPI](openapi/gradient-labs-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/gradient-labs.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/gradient-labs.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Published request limits.
 
-### Gradient Labs Hand-off & Assignment API
+- [Gradient Labs Rate Limits](https://apis.io/rate-limits/gradient-labs/gradient-labs-rate-limits/)
 
-Assign or reassign a conversation between the AI agent and human participants, and capture the conversation.hand_off webhook the agent emits when it decides to escalate to a human, including reason code and routing target.
+#### FinOps (1)
 
-- **Human URL:** [https://api-docs.gradient-labs.ai/](https://api-docs.gradient-labs.ai/)
-- **Base URL:** `https://api.gradient-labs.ai`
+What the API costs to run, by operation.
 
-#### Tags
+- [Gradient Labs Finops](https://apis.io/finops/gradient-labs/gradient-labs-finops/)
 
-- Hand-off
-- Assignment
-- Human Agent
+## Where to find this API
 
-#### Properties
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-- [Documentation](https://api-docs.gradient-labs.ai/)
-- [OpenAPI](openapi/gradient-labs-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/gradient-labs.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/gradient-labs.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Gradient Labs Actions & Tools API
-
-Define the business tools the AI agent can call and execute them. Tools can be run via the API or delivered to your endpoint through the action.execute webhook so the agent can take real actions in your systems.
-
-- **Human URL:** [https://api-docs.gradient-labs.ai/](https://api-docs.gradient-labs.ai/)
-- **Base URL:** `https://api.gradient-labs.ai`
-
-#### Tags
-
-- Actions
-- Tools
-- Function Calling
-
-#### Properties
-
-- [Documentation](https://api-docs.gradient-labs.ai/)
-- [OpenAPI](openapi/gradient-labs-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/gradient-labs.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/gradient-labs.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Gradient Labs Knowledge API
-
-Upsert and delete knowledge-base articles (title, description, body, visibility, topic, status) that ground the AI agent's answers, organized by topic.
-
-- **Human URL:** [https://api-docs.gradient-labs.ai/](https://api-docs.gradient-labs.ai/)
-- **Base URL:** `https://api.gradient-labs.ai`
-
-#### Tags
-
-- Knowledge
-- Articles
-- Content
-
-#### Properties
-
-- [Documentation](https://api-docs.gradient-labs.ai/)
-- [OpenAPI](openapi/gradient-labs-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/gradient-labs.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/gradient-labs.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Gradient Labs Webhooks API
-
-Signed, ordered webhook events the AI agent delivers to your endpoint — agent.message, conversation.hand_off, conversation.finished, action.execute, and resource.pull — each carrying an incrementing sequence_number so you can establish a total order of events per conversation.
-
-- **Human URL:** [https://api-docs.gradient-labs.ai/](https://api-docs.gradient-labs.ai/)
-- **Base URL:** `https://api.gradient-labs.ai`
-
-#### Tags
-
-- Webhooks
-- Events
-- Signing
-
-#### Properties
-
-- [Documentation](https://api-docs.gradient-labs.ai/)
-- [OpenAPI](openapi/gradient-labs-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-## Common Properties
-
-- [LinkedIn](https://www.linkedin.com/company/gradient-labs-ai)
 - [Website](https://www.gradient-labs.ai)
 - [Documentation](https://api-docs.gradient-labs.ai/)
-- [GitHub Organization](https://github.com/gradientlabs-ai)
-- [Plans](plans/gradient-labs-plans-pricing.yml)
-- [Rate Limits](rate-limits/gradient-labs-rate-limits.yml)
-- [Fin Ops](finops/gradient-labs-finops.yml)
+- [Blog](https://blog.gradient-labs.ai/feed)
+- [GitHub](https://github.com/gradientlabs-ai)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 25.2** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 49.9 |
+| Contract governance | 0.0 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 15.5 |
+| Access clarity | 5.3 |
+
+**Agent readiness 23.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 10.9** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/gradient-labs/](https://apis.io/providers/gradient-labs/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Gradient Labs: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/gradient-labs/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
